@@ -1,2 +1,62 @@
-@import './base.css';
+@import "./base.css";
+#app {
+  width: 100%;
+  min-width: 100vw;
+  min-height: 100vh;
+  height: 100vh;
+}
+.input {
+  color: var(--color-text);
+  height: 42px;
+  min-width: 320px;
+  border: 0;
+  font-size: 24px;
+  background-color: var(--color-bg-board)
+}
+.input:focus,
+.input:focus-visible,
+.input:active {
+  outline: none;
+  border-bottom: 1px solid;
+}
+.btn {
+  height: 42px;
+  min-width: 320px;
+  width: 320px;
+  border-radius: 8px;
+  border: 1px solid rgb(136, 136, 136);;
+  font-size: 24px;
+  color: rgb(136, 136, 136);
+}
+.btn:hover {
+  height: 42px;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: rgb(233, 233, 233);
+}
+.link {
+  color: #494949;
+  font-size: 20px;
+  text-decoration: none;
+  color: var(--color-text);
+}
+.link:hover {
+  color: rgb(136, 136, 136);
+  cursor: pointer;
+}
 
+.card {
+  display: flex;
+  flex-direction: column;
+
+  margin: 0px auto;
+  padding: 20px 0 0 0;
+
+  width: 500px;
+  min-width: 310px;
+  height: fit-content;
+
+  border-radius: 8px;
+
+  background-color: var(--color-bg-board)
+}

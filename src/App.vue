@@ -1,17 +1,13 @@
 <template>
-  <header>
-    <h1>Hello</h1>
-  </header>
-
-  <main>
-    <h2>main</h2>
-  </main>
+  <router-view></router-view>
 </template>
 
 <script setup>
-
+import { onMounted } from "vue";
+import router from "@/router/index";
+onMounted(() =>
+  localStorage.getItem("token") ? router.push("/") : router.push("/signin")
+);
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

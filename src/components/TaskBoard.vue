@@ -1,0 +1,16 @@
+<template>
+  <div class="board">
+    <h1>board</h1>
+  </div>
+</template>
+
+<style scoped>
+.board {
+  width: 100%;
+  height: 100%;
+  flex-grow: 1;
+  border-radius: 8px;
+  background-color: var(--color-bg-board);
+
+}
+</style>

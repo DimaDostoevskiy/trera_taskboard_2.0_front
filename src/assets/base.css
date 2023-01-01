@@ -1,17 +1,23 @@
 :root {
-  --white: #ffffff;
+  --bg-white: #ffffff;
+  --bg-board-white: #999999a4;
+  --text-white: rgb(42, 42, 42);
 
-  --black: #181818;
+  --bg-black: #1f1f1f;
+  --bg-board-black: #3f3f3f;
+  --text-black: #c4c4c4;
 }
 :root {
-  --color-background: var(--white);
-  --color-text: var(--black);
+  --color-background: var(--bg-white);
+  --color-text: var(--text-white);
+  --color-bg-board: var(--bg-board-white);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-background: var(--black);
-    --color-text: var(--white);
+    --color-background: var(--bg-black);
+    --color-text: var(--text-black);
+    --color-bg-board: var(--bg-board-black);
   }
 }
 
@@ -22,6 +28,7 @@
   margin: 0;
   position: relative;
   font-weight: normal;
+  color: var(--color-text);
 }
 
 body {
