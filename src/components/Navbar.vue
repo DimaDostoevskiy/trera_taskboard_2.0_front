@@ -7,7 +7,13 @@
         <div class="project-item">project 3</div>
       </div>
       <div class="controls">
-        <div class="btn-create-proj">Создать проект<img class="add" src="../assets/images/add.png" alt="add" /></div>
+        <a class="btn-create-proj" @click="createProject" >Создать проект
+          <img
+            class="add"
+            src="../assets/images/add.png"
+            alt="add"
+          />
+        </a>
       </div>
     </div>
     <div class="current-user">
@@ -16,6 +22,17 @@
     </div>
   </nav>
 </template>
+
+
+<script setup>
+import { defineEmits } from 'vue';
+
+const emit = defineEmits('createProjectModal');
+const createProject = () =>{
+  emit('createProjectModal');
+}
+
+</script>
 
 <style scoped>
 .navbar {
@@ -66,10 +83,12 @@
   background-color: var(--color-bg-board);
 }
 .gear {
-  margin: 0 8px;
+  width: 24px;
+  height: 24px;
+  margin: 0 0 0 30px;
 }
 .add {
-  width:  24px;
+  width: 24px;
   height: 24px;
 }
 
@@ -90,7 +109,7 @@
   border-radius: 8px;
   background-color: var(--color-background-secondary);
   cursor: pointer;
-
+  text-decoration: none;
 }
 
 </style>

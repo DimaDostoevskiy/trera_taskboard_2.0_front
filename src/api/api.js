@@ -53,7 +53,8 @@ export default {
     return result;
   },
   createProject: async (token, name) => {
-    let result = false;
+    let isOk = false;
+    let mes = "";
     await axios
       .post(
         `${basicRoute}projects/`,
@@ -68,11 +69,14 @@ export default {
       )
       .then(function (response) {
         console.log(response);
-        result = response.status === 200 ? response.data.token : false;
+        if (response.status === 200) {
+          mes = response.data.message;
+          isOk = true;
+        }
       })
       .catch(function (error) {
         console.error(error);
       });
-    return result;
+    return { ok: isOk, message: mes };
   },
 };

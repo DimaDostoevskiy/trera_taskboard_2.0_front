@@ -1,7 +1,7 @@
 <template>
   <div class="signup">
     <div class="card">
-      <input class="input" v-model="name" placeholder=" Ваше имя" type="text" />
+      <input class="input" v-model="name" placeholder=" ваше имя" type="text" />
       <input
         class="input"
         v-model="email"
@@ -14,7 +14,7 @@
         placeholder=" надёжный пароль"
         type="password"
       />
-      <button class="btn" @click="signUp">Зарегестрироваться</button>
+      <button class="btn" @click="signUp">signup</button>
     </div>
   </div>
 </template>
@@ -45,16 +45,16 @@ const signUp = async () => {
 .signup {
   padding-top: 50px;
 }
+.card{
+  margin: 0 auto;
+  padding: 50px;
+  background-color: var(--color-bg-board);
+}
 .input {
-  margin: 30px auto 0 auto;
+  margin: 0px auto 40px auto;
   border-bottom: 1px solid;
 }
 .btn {
-  margin: 60px auto;
-}
-.card{
-  margin: 0 auto;
-  padding-top: 30px;
-  background-color: var(--color-bg-board);
+  margin: 40px auto;
 }
 </style>

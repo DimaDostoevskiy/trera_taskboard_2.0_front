@@ -45,15 +45,15 @@ const signIn = async () => {
 }
 .card{
   margin: 0 auto;
-  padding-top: 30px;
+  padding: 50px;
 }
 .input {
-  margin: 30px auto 0 auto;
+  margin: 0px auto 40px auto;
 }
 .btn {
-  margin: 50px auto;
+  margin: 40px auto 60px auto;
 }
 .link {
-  margin: 0px auto 30px auto;
+  margin: 0px auto;
 }
 </style>
