@@ -21,7 +21,7 @@
 
 <script setup>
 import { ref } from "vue";
-import api from "@/api";
+import api from "@/api/api";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -51,5 +51,10 @@ const signUp = async () => {
 }
 .btn {
   margin: 60px auto;
+}
+.card{
+  margin: 0 auto;
+  padding-top: 30px;
+  background-color: var(--color-bg-board);
 }
 </style>

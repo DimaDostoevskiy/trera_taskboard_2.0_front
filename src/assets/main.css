@@ -6,13 +6,15 @@
   height: 100vh;
 }
 .input {
-  color: var(--color-text);
   height: 42px;
   min-width: 320px;
-  border: 0;
   font-size: 24px;
-  background-color: var(--color-bg-board)
+  border: 0;
+  border-bottom: 1px solid;
+  color: var(--color-text);
+  background-color: var(--color-bg-board);
 }
+
 .input:focus,
 .input:focus-visible,
 .input:active {
@@ -20,19 +22,20 @@
   border-bottom: 1px solid;
 }
 .btn {
+  border: 1px solid rgb(136, 136, 136);
+  border-radius: 8px;
   height: 42px;
   min-width: 320px;
-  width: 320px;
-  border-radius: 8px;
-  border: 1px solid rgb(136, 136, 136);;
+
   font-size: 24px;
-  color: rgb(136, 136, 136);
+  color: var(--color-text-primary);
+  background-color: var(--color-btn);
 }
 .btn:hover {
   height: 42px;
   border-radius: 8px;
   cursor: pointer;
-  background-color: rgb(233, 233, 233);
+  background-color: var(--color-btn-hover);
 }
 .link {
   color: #494949;
@@ -41,7 +44,7 @@
   color: var(--color-text);
 }
 .link:hover {
-  color: rgb(136, 136, 136);
+  color: var(--color-text-primary);
   cursor: pointer;
 }
 
@@ -49,14 +52,10 @@
   display: flex;
   flex-direction: column;
 
-  margin: 0px auto;
-  padding: 20px 0 0 0;
-
   width: 500px;
   min-width: 310px;
   height: fit-content;
 
   border-radius: 8px;
-
-  background-color: var(--color-bg-board)
+  background-color: var(--color-bg-board);
 }

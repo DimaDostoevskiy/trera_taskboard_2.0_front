@@ -6,11 +6,11 @@
 
 <style scoped>
 .board {
+  padding: 15px;
   width: 100%;
   height: 100%;
   flex-grow: 1;
   border-radius: 8px;
   background-color: var(--color-bg-board);
-
 }
 </style>

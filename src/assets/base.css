@@ -1,23 +1,39 @@
 :root {
   --bg-white: #ffffff;
-  --bg-board-white: #999999a4;
+  --bg-white-secondary: #f2f2f2;
+  --bg-board-white: #c7c7c7;
+  --text-primary-white: #000000;
   --text-white: rgb(42, 42, 42);
+  --btn-color-white: #f3f3f3;
+  --btn-color-hover-white: #ffffff;
 
-  --bg-black: #1f1f1f;
-  --bg-board-black: #3f3f3f;
-  --text-black: #c4c4c4;
+  --bg-black: #000000;
+  --bg-black-secondary: #4f5263;
+  --bg-board-black: #282a34;
+  --text-primary-black: #fcfcfc;
+  --text-black: #dbdbdb;
+  --btn-color-dark: #292929;
+  --btn-color-hover-dark: #3a3a3a;
 }
 :root {
   --color-background: var(--bg-white);
-  --color-text: var(--text-white);
+  --color-background-secondary: var(--bg-white-secondary);
   --color-bg-board: var(--bg-board-white);
+  --color-text: var(--text-white);
+  --color-text-primary: var(--text-primary-white);
+  --color-btn: var(--btn-color-white);
+  --color-btn-hover: var(--btn-color-hover-white);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --color-background: var(--bg-black);
-    --color-text: var(--text-black);
+    --color-background-secondary: var(--bg-black-secondary);
     --color-bg-board: var(--bg-board-black);
+    --color-text: var(--text-black);
+    --color-text-primary: var(--text-primary-black);
+    --color-btn: var(--btn-color-dark);
+    --color-btn-hover: var(--btn-color-hover-dark);
   }
 }
 
