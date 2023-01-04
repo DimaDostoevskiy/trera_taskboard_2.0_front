@@ -16,10 +16,9 @@
   color: var(--color-text);
   background-color: var(--color-bg-board);
 }
-.input__error{
+.input__error {
   border-bottom: 1px solid red;
 }
-
 
 .input:focus,
 .input:focus-visible,
@@ -31,7 +30,7 @@
   margin: 0 auto;
   height: 42px;
   width: 320px;
-  
+
   font-size: 24px;
 
   border: 1px solid rgb(136, 136, 136);
@@ -44,6 +43,13 @@
   border-radius: 8px;
   cursor: pointer;
   background-color: var(--color-btn-hover);
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: auto;
+}
+.btn:disabled:hover {
+  background-color: var(--color-btn);
 }
 .link {
   color: #494949;

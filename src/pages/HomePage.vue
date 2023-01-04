@@ -1,11 +1,8 @@
 <template>
   <div class="container">
-    <NavbarVue @createProjectModal="isCreateOpened = true" />
+    <CreateProjectModalVue />
+    <NavbarVue />
     <TaskBoardVue />
-    <CreateProjectModalVue 
-      :is-opened="isCreateOpened" 
-      @close="isCreateOpened = false"/>
-    
   </div>
 </template>
 
@@ -15,12 +12,12 @@ import TaskBoardVue from "../components/TaskBoard.vue";
 import CreateProjectModalVue from "./CreateProjectModal.vue";
 
 import { onMounted, ref } from "vue";
-import { useAuthStore } from "@/stores/useAuthStore";
 import api from "@/api/api";
+
+import { useAuthStore } from "@/stores/useAuthStore";
 
 const store = useAuthStore();
 const projectList = ref([]);
-const isCreateOpened = ref(true);
 
 onMounted(() => {
   store.token = localStorage.getItem("token");

@@ -7,12 +7,9 @@
         <div class="project-item">project 3</div>
       </div>
       <div class="controls">
-        <a class="btn-create-proj" @click="createProject" >Создать проект
-          <img
-            class="add"
-            src="../assets/images/add.png"
-            alt="add"
-          />
+        <a class="btn-create-proj" @click="storeModal.isShowModal = true"
+          >Создать проект
+          <img class="add" src="../assets/images/add.png" alt="add" />
         </a>
       </div>
     </div>
@@ -23,15 +20,9 @@
   </nav>
 </template>
 
-
 <script setup>
-import { defineEmits } from 'vue';
-
-const emit = defineEmits('createProjectModal');
-const createProject = () =>{
-  emit('createProjectModal');
-}
-
+import { useModalStore } from "@/stores/useModalStore";
+const storeModal = useModalStore();
 </script>
 
 <style scoped>
@@ -92,13 +83,13 @@ const createProject = () =>{
   height: 24px;
 }
 
-.controls{
+.controls {
   display: flex;
   justify-content: flex-end;
   padding: 0 20px;
   width: 100%;
 }
-.btn-create-proj{
+.btn-create-proj {
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -111,5 +102,4 @@ const createProject = () =>{
   cursor: pointer;
   text-decoration: none;
 }
-
 </style>

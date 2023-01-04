@@ -1,62 +1,71 @@
 <template>
-  <div v-if="isOpened" class="modal-wrapper">
-    <div class="modal">
-      <div class="card">
-        <input
-          class="input"
-          :class="{ input__error: hasError }"
-          v-model="name"
-          placeholder=" Название проекта"
-          type="text"
-        />
-        <button class="btn" @click="createProj">Создать проект</button>
-      </div>
+  <div class="modal" v-if="storeModal.isShowModal">
+    <div class="owerlay" @click="storeModal.isShowModal = false"></div>
+    <div class="card">
+      <input
+        class="input"
+        v-model="projectName"
+        placeholder=" Название проекта"
+        type="text"
+      />
+      <!-- TODO: {{ v$.projectName?.$errors[0]?.$message }} -->
+      <button :disabled="v$.$invalid" class="btn" @click="createProj">Создать проект</button>
     </div>
-    <div @click="close" class="overlay"></div>
   </div>
 </template>
 
 <script setup>
-import { ref, defineProps, defineEmits } from "vue";
+import { ref, computed } from "vue";
 import api from "@/api/api";
 
-import { useRouter } from "vue-router";
+import { useModalStore } from "@/stores/useModalStore";
 
-const emit = defineEmits(["close"]);
-defineProps(["isOpened"]);
+import { useVuelidate } from "@vuelidate/core";
+import { required, minLength } from "@vuelidate/validators";
 
-const router = useRouter();
+const projectName = ref("");
+const rules = {
+  projectName: { required, minLength: minLength(2), $autoDirty: true }, // Matches state.firstName
+};
 
-const name = ref("");
-const hasError = ref(true);
+const v$ = useVuelidate(rules, {projectName});
+const storeModal = useModalStore();
 
 const createProj = async () => {
-  if (name.value.length < 6) {
-    hasError.value = !hasError.value;
-    console.log("в имени недостаточно символв");
-  }
-  const res = await api.createProject(
-    localStorage.getItem("token"),
-    name.value
-  );
+  const res = await api.createProject(localStorage.getItem("token"));
   if (res.ok) {
-    console.log(res.message);
-    router.push("/");
   } else {
     console.log(res.message);
     //TODO: toast show res.message
   }
 };
-
-const close = () => {
-  console.log(`emit('close')`);
-  emit("close");
-};
 </script>
 
 <style scoped>
+.modal {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.owerlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  background-color: rgba(100, 100, 100, 0.5);
+  z-index: 1;
+}
+.modal {
+  z-index: 1;
+}
 .card {
+  margin-top: 150px;
   padding: 0 50px;
+  z-index: 1;
 }
 .input {
   margin: 100px auto 100px auto;
@@ -66,33 +75,5 @@ const close = () => {
   margin: 0px auto 50px auto;
 }
 
-.modal-wrapper {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
 
-.overlay {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: black;
-  opacity: 0.4;
-}
-.modal {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1;
-  pointer-events: none;
-}
 </style>
