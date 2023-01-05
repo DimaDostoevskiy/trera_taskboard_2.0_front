@@ -10,19 +10,6 @@
 import NavbarVue from "../components/Navbar.vue";
 import TaskBoardVue from "../components/TaskBoard.vue";
 import CreateProjectModalVue from "./CreateProjectModal.vue";
-
-import { onMounted, ref } from "vue";
-import api from "@/api/api";
-
-import { useAuthStore } from "@/stores/useAuthStore";
-
-const store = useAuthStore();
-const projectList = ref([]);
-
-onMounted(() => {
-  store.token = localStorage.getItem("token");
-  projectList.value = api.getAllProjects(store.token);
-});
 </script>
 
 <style scoped>

@@ -14,17 +14,17 @@
   border: 0;
   border-bottom: 1px solid;
   color: var(--color-text);
+  border-color: rgb(206, 206, 206);
   background-color: var(--color-bg-board);
-}
-.input__error {
-  border-bottom: 1px solid red;
 }
 
 .input:focus,
 .input:focus-visible,
 .input:active {
   outline: none;
-  border-bottom: 1px solid;
+}
+.input__error {
+ border-color: red;
 }
 .btn {
   margin: 0 auto;
@@ -73,4 +73,9 @@
   height: fit-content;
   border-radius: 8px;
   background-color: var(--color-bg-board);
+}
+.icon{
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
 }

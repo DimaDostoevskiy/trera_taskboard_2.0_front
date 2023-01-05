@@ -21,7 +21,7 @@
 
 <script setup>
 import { ref } from "vue";
-import api from "@/api/api";
+import api from "../api/api";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -37,6 +37,7 @@ const signUp = async () => {
     password.value
   );
   if (!response) return;
+  console.log(response);
   router.push("/signin");
 };
 </script>
@@ -45,7 +46,7 @@ const signUp = async () => {
 .signup {
   padding-top: 50px;
 }
-.card{
+.card {
   margin: 0 auto;
   padding: 50px;
   background-color: var(--color-bg-board);

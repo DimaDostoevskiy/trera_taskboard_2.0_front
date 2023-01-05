@@ -21,10 +21,12 @@
 
 <script setup>
 import { ref } from "vue";
-import api from "@/api/api";
+import api from "../api/api";
 
 import { useRouter } from "vue-router";
+import { useAuthStore } from "@/stores/useAuthStore";
 
+const storeAuth = useAuthStore();
 const router = useRouter();
 
 const email = ref("");
@@ -33,17 +35,17 @@ const password = ref("");
 const signIn = async () => {
   const response = await api.requestSignIn(email.value, password.value);
   if (!response) return;
+  storeAuth.token = response;
   localStorage.setItem("token", response);
   router.push("/");
 };
 </script>
 
 <style scoped>
-
 .signin {
   padding-top: 50px;
 }
-.card{
+.card {
   margin: 0 auto;
   padding: 50px;
 }
