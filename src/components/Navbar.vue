@@ -8,7 +8,12 @@
           class="project-item"
         >
           {{ project.name }}
-          <img class="icon" src="../assets/images/g_delete.png" alt="delete" />
+          <img
+            @click="deleteProj(project.id)"
+            class="icon"
+            src="../assets/images/g_delete.png"
+            alt="delete"
+          />
         </div>
       </div>
       <div class="controls">
@@ -43,15 +48,22 @@ const router = useRouter();
 const storeModal = useModalStore();
 const store = useAppStore();
 
-onMounted(async () => {
+onMounted(async function () {
   store.projectList = await api.getAllProjects(store.token);
   store.userName = jwtParser(store.token).login;
 });
-const logOut = () => {
+
+async function deleteProj(id) {
+  const response = await api.deleteProject(store.token, id);
+  console.log(response);
+  store.projectList = await api.getAllProjects(store.token);
+}
+function logOut() {
   store.token = undefined;
+  store.userName = undefined;
   localStorage.clear();
   router.push("/signin");
-};
+}
 </script>
 
 <style scoped>

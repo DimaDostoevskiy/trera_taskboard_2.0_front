@@ -39,7 +39,7 @@ export default {
     return response?.status === 200 ? response.data.token : undefined;
   },
   /**
-   * get request
+   * returns all projects
    * @param {string} token
    * @returns {Array} array | undefined
    */
@@ -56,10 +56,10 @@ export default {
     return response ? response.data : [];
   },
   /**
-   * post request to /projects
+   * create project
    * @param {string} token
    * @param {string} name
-   * @returns {Array} response message | undefined
+   * @returns {string} response message | undefined
    */
   createProject: async (token, name) => {
     const response = await axios
@@ -74,6 +74,27 @@ export default {
           },
         }
       )
+      .catch(function (error) {
+        console.error(error);
+      });
+    return response.status === 200 ? response.data.message : undefined;
+  },
+  /**
+   * delete project
+   * @param {string} token
+   * @param {string} id
+   * @returns {string} response message | undefined
+   */
+  deleteProject: async (token, id) => {
+    const response = await axios
+      .delete(`${basicRoute}projects/`, {
+        headers: {
+          Authorization: token,
+        },
+        data: {
+          project_id: id,
+        },
+      })
       .catch(function (error) {
         console.error(error);
       });
