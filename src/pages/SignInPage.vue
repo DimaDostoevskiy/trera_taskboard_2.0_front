@@ -24,9 +24,9 @@ import { ref } from "vue";
 import api from "../api/api";
 
 import { useRouter } from "vue-router";
-import { useAuthStore } from "@/stores/useAuthStore";
+import { useAppStore } from "@/stores/useAppStore";
 
-const storeAuth = useAuthStore();
+const store = useAppStore();
 const router = useRouter();
 
 const email = ref("");
@@ -35,7 +35,7 @@ const password = ref("");
 const signIn = async () => {
   const response = await api.requestSignIn(email.value, password.value);
   if (!response) return;
-  storeAuth.token = response;
+  store.token = response;
   localStorage.setItem("token", response);
   router.push("/");
 };

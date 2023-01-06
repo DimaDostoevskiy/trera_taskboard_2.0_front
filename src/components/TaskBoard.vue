@@ -4,6 +4,11 @@
   </div>
 </template>
 
+<script setup>
+import { useAppStore } from "../stores/useAppStore";
+const store = useAppStore();
+</script>
+
 <style scoped>
 .board {
   padding: 15px;

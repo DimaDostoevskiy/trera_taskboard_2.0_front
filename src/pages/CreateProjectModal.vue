@@ -4,13 +4,17 @@
     <div class="card">
       <input
         class="input"
-        :class="{ input__error: v$.$invalid }"
+        :class="{ input__error: v$.projectName?.$errors?.length }"
         v-model="projectName"
         placeholder=" Название проекта"
         type="text"
       />
-      <!-- TODO: {{ v$.projectName?.$errors[0]?.$message }} -->
-      <button :disabled="v$.$invalid" class="btn" @click="createProj">
+      <div class="error-message">
+        <span class="error__label">
+          {{ v$.projectName?.$errors[0]?.$message }}
+        </span>
+      </div>
+      <button class="btn" :disabled="v$.$invalid" @click="createProj">
         Создать проект
       </button>
     </div>
@@ -21,34 +25,41 @@
 import { ref } from "vue";
 import api from "../api/api";
 
+import { useAppStore } from "@/stores/useAppStore";
 import { useModalStore } from "@/stores/useModalStore";
-import { useAuthStore } from "@/stores/useAuthStore";
 
 import { useVuelidate } from "@vuelidate/core";
-import { required, minLength } from "@vuelidate/validators";
+import { required, helpers, minLength, maxLength } from "@vuelidate/validators";
+
+const store = useAppStore();
+const storeModal = useModalStore();
 
 const projectName = ref();
-const storeAuth = useAuthStore();
 
 const rules = {
-  projectName: { required, minLength: minLength(5), $autoDirty: true },
+  projectName: {
+    minLength: helpers.withMessage(() => "Имя слишком короткое", minLength(4)),
+    maxLength: helpers.withMessage(() => "Имя слишком длинное", maxLength(30)),
+    required: helpers.withMessage("Поле необходимо заполнить", required),
+    $autoDirty: true,
+  },
 };
 
 const v$ = useVuelidate(rules, { projectName });
-const storeModal = useModalStore();
 
-const close = () => {
-  storeModal.isShowModal = false;
-};
-
-const createProj = async () => {
-  const res = await api.createProject(storeAuth.token, projectName.value);
+async function createProj() {
+  const res = await api.createProject(store.token, projectName.value);
   if (!res) return;
-  console.log(res.message);
-  storeAuth.projectList = await api.getAllProjects(storeAuth.token);
-  projectName.value = "";
+  console.log(res);
+  store.projectList = await api.getAllProjects(store.token);
   close();
-};
+}
+
+function close() {
+  projectName.value = "";
+  storeModal.isShowModal = false;
+  v$.value.$reset();
+}
 </script>
 
 <style scoped>
@@ -78,9 +89,15 @@ const createProj = async () => {
   z-index: 1;
 }
 .input {
-  margin: 100px auto 100px auto;
+  margin: 100px auto 5px auto;
+}
+.error-message {
+  height: 30px;
+}
+.error__label {
+  color: var(--color-danger);
 }
 .btn {
-  margin: 0px auto 50px auto;
+  margin: 70px auto 50px auto;
 }
 </style>

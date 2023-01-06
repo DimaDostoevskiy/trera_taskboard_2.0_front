@@ -6,17 +6,17 @@
 import { onMounted } from "vue";
 import router from "@/router/index";
 
-import { useAuthStore } from "@/stores/useAuthStore";
+import { useAppStore } from "@/stores/useAppStore";
 
 import api from "@/api/api";
 
-const storeAuth = useAuthStore();
+const store = useAppStore();
 
 onMounted(async () => {
   const token = localStorage.getItem("token");
   if (token) {
-    storeAuth.token = token;
-    storeAuth.projectList = await api.getAllProjects(storeAuth.token);
+    store.token = token;
+    store.projectList = await api.getAllProjects(store.token);
     router.push("/");
   } else {
     router.push("/signin");

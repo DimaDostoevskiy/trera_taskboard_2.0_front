@@ -3,7 +3,7 @@
     <div class="navbar-panel">
       <div class="projects">
         <div
-          v-for="project in storeAuth.projectList"
+          v-for="project in store.projectList"
           :key="project.id"
           class="project-item"
         >
@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="current-user">
-      current@user.ru
+      {{ store.userName }}
       <img class="icon" src="../assets/images/g_gear.png" alt="gear" />
       <img
         class="icon"
@@ -35,18 +35,20 @@
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useModalStore } from "@/stores/useModalStore";
-import { useAuthStore } from "@/stores/useAuthStore";
+import { useAppStore } from "@/stores/useAppStore";
 import api from "../api/api";
+import jwtParser from "../lib/jwtParser";
 
-const storeModal = useModalStore();
-const storeAuth = useAuthStore();
 const router = useRouter();
+const storeModal = useModalStore();
+const store = useAppStore();
 
 onMounted(async () => {
-  storeAuth.projectList = await api.getAllProjects(storeAuth.token);
+  store.projectList = await api.getAllProjects(store.token);
+  store.userName = jwtParser(store.token).login;
 });
 const logOut = () => {
-  storeAuth.token = undefined;
+  store.token = undefined;
   localStorage.clear();
   router.push("/signin");
 };

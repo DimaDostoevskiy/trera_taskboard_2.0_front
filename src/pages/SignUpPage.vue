@@ -37,7 +37,6 @@ const signUp = async () => {
     password.value
   );
   if (!response) return;
-  console.log(response);
   router.push("/signin");
 };
 </script>

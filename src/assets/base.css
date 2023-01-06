@@ -23,6 +23,8 @@
   --color-text-primary: var(--text-primary-white);
   --color-btn: var(--btn-color-white);
   --color-btn-hover: var(--btn-color-hover-white);
+  --color-danger: #ff0909;
+  --color-success: #0eff06;
 }
 
 @media (prefers-color-scheme: dark) {
