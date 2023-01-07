@@ -42,23 +42,24 @@ import { useRouter } from "vue-router";
 import { useModalStore } from "@/stores/useModalStore";
 import { useAppStore } from "@/stores/useAppStore";
 import api from "../api/api";
-import jwtParser from "../lib/jwtParser";
+import parseJwt from "../lib/jwtParser";
 
 const router = useRouter();
 const storeModal = useModalStore();
 const store = useAppStore();
 
-onMounted(async function () {
+onMounted(async () => {
   store.projectList = await api.getAllProjects(store.token);
-  store.userName = jwtParser(store.token).login;
+  store.userName = parseJwt(store.token).login;
 });
 
-async function deleteProj(id) {
-  const response = await api.deleteProject(store.token, id);
-  console.log(response);
+const deleteProj = async (id) => {
+  const responseMessage = await api.deleteProject(store.token, id);
+  console.log(responseMessage);
   store.projectList = await api.getAllProjects(store.token);
-}
-function logOut() {
+};
+
+const logOut = () => {
   store.token = undefined;
   store.userName = undefined;
   localStorage.clear();

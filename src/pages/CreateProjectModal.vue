@@ -47,19 +47,19 @@ const rules = {
 
 const v$ = useVuelidate(rules, { projectName });
 
-async function createProj() {
+const createProj = async () => {
   const res = await api.createProject(store.token, projectName.value);
   if (!res) return;
   console.log(res);
   store.projectList = await api.getAllProjects(store.token);
   close();
-}
+};
 
-function close() {
+const close = () => {
   projectName.value = "";
   storeModal.isShowModal = false;
   v$.value.$reset();
-}
+};
 </script>
 
 <style scoped>
@@ -78,15 +78,15 @@ function close() {
   right: 0;
 
   background-color: rgba(100, 100, 100, 0.5);
-  z-index: 1;
+  z-index: 5;
 }
 .modal {
-  z-index: 1;
+  z-index: 5;
 }
 .card {
   margin-top: 150px;
   padding: 0 50px;
-  z-index: 1;
+  z-index: 5;
 }
 .input {
   margin: 100px auto 5px auto;

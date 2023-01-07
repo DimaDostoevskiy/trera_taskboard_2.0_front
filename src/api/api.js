@@ -1,6 +1,18 @@
 import axios from "axios";
 import { basicRoute } from "@/config/config";
 
+axios.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    if (error.request.status === 401) {
+      localStorage.removeItem("token");
+      window.location.reload();
+    }
+  }
+);
+
 export default {
   /**
    * post request to auth/signup
