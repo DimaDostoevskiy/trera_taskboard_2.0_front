@@ -9,8 +9,8 @@
         placeholder=" Название проекта"
         type="text"
       />
-      <div class="error-message">
-        <span class="error__label">
+      <div class="validate">
+        <span class="validate__message">
           {{ v$.projectName?.$errors[0]?.$message }}
         </span>
       </div>
@@ -91,10 +91,10 @@ const close = () => {
 .input {
   margin: 100px auto 5px auto;
 }
-.error-message {
+.validate {
   height: 30px;
 }
-.error__label {
+.validate__message {
   color: var(--color-danger);
 }
 .btn {
