@@ -1,5 +1,5 @@
 <template>
-  <div class="modal" v-if="storeModal.isShowModal">
+  <div class="modal" v-if="isShow">
     <div class="owerlay" @click="close"></div>
     <div class="card">
       <input
@@ -22,43 +22,52 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import api from "../api/api";
-
-import { useAppStore } from "@/stores/useAppStore";
-import { useModalStore } from "@/stores/useModalStore";
-
+import { ref, defineProps, defineEmits } from "vue";
 import { useVuelidate } from "@vuelidate/core";
 import { required, helpers, minLength, maxLength } from "@vuelidate/validators";
 
-const store = useAppStore();
-const storeModal = useModalStore();
+import { useAuthStore } from "@/stores/useAuthStore";
+
+import api from "../api/api";
+import validateMessages from "../config/validateMessages";
+
+const storeAuth = useAuthStore();
+const props = defineProps(["is-show"]);
+const emit = defineEmits(["close", "update"]);
 
 const projectName = ref();
 
+// #region validation
 const rules = {
   projectName: {
-    minLength: helpers.withMessage(() => "Имя слишком короткое", minLength(4)),
-    maxLength: helpers.withMessage(() => "Имя слишком длинное", maxLength(30)),
-    required: helpers.withMessage("Поле необходимо заполнить", required),
+    minLength: helpers.withMessage(
+      () => validateMessages.minLenght,
+      minLength(4)
+    ),
+    maxLength: helpers.withMessage(
+      () => validateMessages.maxLenght,
+      maxLength(30)
+    ),
+    required: helpers.withMessage(validateMessages.required, required),
     $autoDirty: true,
   },
 };
 
 const v$ = useVuelidate(rules, { projectName });
+// #endregion
 
 const createProj = async () => {
-  const res = await api.createProject(store.token, projectName.value);
-  if (!res) return;
-  console.log(res);
-  store.projectList = await api.getAllProjects(store.token);
+  const response = await api.createProject(storeAuth.token, projectName.value);
+  if (!response) return;
+  console.log(response);
+  emit("update");
   close();
 };
 
 const close = () => {
   projectName.value = "";
-  storeModal.isShowModal = false;
   v$.value.$reset();
+  emit("close");
 };
 </script>
 
@@ -89,15 +98,16 @@ const close = () => {
   z-index: 5;
 }
 .input {
-  margin: 100px auto 5px auto;
+  margin: 100px auto 0px auto;
 }
 .validate {
   height: 30px;
+  margin-bottom: 60px;
 }
 .validate__message {
   color: var(--color-danger);
 }
 .btn {
-  margin: 70px auto 50px auto;
+  margin-bottom: 100px;
 }
 </style>

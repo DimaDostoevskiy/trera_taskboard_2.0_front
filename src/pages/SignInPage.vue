@@ -4,7 +4,7 @@
       <input
         class="input"
         v-model="eMail"
-        placeholder=" fuck@yandex.com"
+        placeholder=" fuck@yandex.ru"
         type="text"
       />
       <div class="validate">
@@ -31,42 +31,56 @@
 
 <script setup>
 import { ref } from "vue";
-import api from "../api/api";
 
 import { useRouter } from "vue-router";
-import { useAppStore } from "@/stores/useAppStore";
+import { useAuthStore } from "@/stores/useAuthStore";
 
 import { useVuelidate } from "@vuelidate/core";
-import { required, helpers, minLength, maxLength, email } from "@vuelidate/validators";
+import {
+  required,
+  helpers,
+  minLength,
+  maxLength,
+  email,
+} from "@vuelidate/validators";
 
-const store = useAppStore();
+import validateMessages from "../config/validateMessages";
+
 const router = useRouter();
+const storeAuth = useAuthStore();
 
 const eMail = ref("");
 const password = ref("");
 
+// #region validation
+
 const rules = {
   eMail: {
-    required: helpers.withMessage("Поле необходимо заполнить", required),
-    email: helpers.withMessage("Некорректный email", email),
+    required: helpers.withMessage(validateMessages.required, required),
+    email: helpers.withMessage(validateMessages.email, email),
     $autoDirty: true,
   },
   password: {
-    minLength: helpers.withMessage(() => "Пароль слишком короткий", minLength(4)),
-    maxLength: helpers.withMessage(() => "Пароль слишком длинный", maxLength(30)),
-    required: helpers.withMessage("Поле необходимо заполнить", required),
+    minLength: helpers.withMessage(
+      () => validateMessages.minLenght,
+      minLength(4)
+    ),
+    maxLength: helpers.withMessage(
+      () => validateMessages.maxLenght,
+      maxLength(30)
+    ),
+    required: helpers.withMessage(validateMessages.required, required),
     $autoDirty: true,
   },
 };
 
 const v$ = useVuelidate(rules, { eMail, password });
 
+// #endregion
+
 const signIn = async () => {
-  const response = await api.requestSignIn(eMail.value, password.value);
-  if (!response) return;
-  store.token = response;
-  localStorage.setItem("token", response);
-  router.push("/");
+  await storeAuth.signIn(eMail.value, password.value);
+  if (storeAuth.token) router.push("/");
 };
 </script>
 

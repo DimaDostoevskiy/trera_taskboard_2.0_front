@@ -15,7 +15,7 @@ axios.interceptors.response.use(
 
 export default {
   /**
-   * post request to auth/signup
+   * signup
    * @param {string} name
    * @param {string} login
    * @param {string} password
@@ -34,7 +34,7 @@ export default {
     return response.status === 201 ? response.data.message : undefined;
   },
   /**
-   * post request to auth/login
+   * signin
    * @param {string} login
    * @param {string} password
    * @returns {string} token | undefined
@@ -111,5 +111,17 @@ export default {
         console.error(error);
       });
     return response.status === 200 ? response.data.message : undefined;
+  },
+  getAllColumns: async (token, projId) => {
+    const response = await axios
+      .get(`${basicRoute}column/${projId}`, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+    return response.status === 200 ? response.data : [];
   },
 };

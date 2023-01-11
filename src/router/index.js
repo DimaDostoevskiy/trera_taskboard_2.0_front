@@ -3,7 +3,6 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomePage from "@/pages/HomePage.vue";
 import SignInPage from "@/pages/SignInPage.vue";
 import SignUpPage from "@/pages/SignUpPage.vue";
-import CreateProjectModal from "@/pages/CreateProjectModal.vue"
 
 const router = createRouter({
   history: createWebHistory(),
@@ -22,11 +21,6 @@ const router = createRouter({
       path: "/signup",
       name: "signup",
       component: SignUpPage,
-    },
-    {
-      path: "/project/create",
-      name: "modal-create",
-      component: CreateProjectModal,
     },
   ],
 });

@@ -6,6 +6,7 @@
   --text-white: rgb(42, 42, 42);
   --btn-color-white: #f3f3f3;
   --btn-color-hover-white: #ffffff;
+  --column-bg-white: #3A3C49;
 
   --bg-black: #191919;
   --bg-black-secondary: #4f5263;
@@ -14,6 +15,7 @@
   --text-black: #dbdbdb;
   --btn-color-dark: #292929;
   --btn-color-hover-dark: #3a3a3a;
+  --column-bg-black: #3A3C49;
 }
 :root {
   --color-background: var(--bg-white);
@@ -23,6 +25,7 @@
   --color-text-primary: var(--text-primary-white);
   --color-btn: var(--btn-color-white);
   --color-btn-hover: var(--btn-color-hover-white);
+  --color-bg-column: var(--column-bg-white);
   --color-danger: #ff0909;
   --color-success: #0eff06;
 }
@@ -36,6 +39,9 @@
     --color-text-primary: var(--text-primary-black);
     --color-btn: var(--btn-color-dark);
     --color-btn-hover: var(--btn-color-hover-dark);
+    --color-bg-column: var(--column-bg-black);
+    --color-danger: #ff0909;
+    --color-success: #0eff06;
   }
 }
 

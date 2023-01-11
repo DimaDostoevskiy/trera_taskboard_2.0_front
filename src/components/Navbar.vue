@@ -3,7 +3,8 @@
     <div class="navbar-panel">
       <div class="projects">
         <div
-          v-for="project in store.projectList"
+          v-for="project in projectList"
+          @click="showBoard(project.id)"
           :key="project.id"
           class="project-item"
         >
@@ -17,14 +18,14 @@
         </div>
       </div>
       <div class="controls">
-        <a class="btn-create-proj" @click="storeModal.isShowModal = true"
+        <a class="btn-create-proj" @click="showCreateProjModal = true"
           >Создать проект
           <img class="icon" src="../assets/images/g_add.png" alt="add" />
         </a>
       </div>
     </div>
     <div class="current-user">
-      {{ store.userName }}
+      {{ storeAuth.user?.login }}
       <img class="icon" src="../assets/images/g_gear.png" alt="gear" />
       <img
         class="icon"
@@ -34,37 +35,50 @@
       />
     </div>
   </nav>
+  <ModalCreateProj
+    :is-show="showCreateProjModal"
+    @close="closeCreateProjModal"
+  />
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { useModalStore } from "@/stores/useModalStore";
-import { useAppStore } from "@/stores/useAppStore";
+import ModalCreateProj from "../components/ModalCreateProj.vue";
+
+import { useAuthStore } from "@/stores/useAuthStore";
+
 import api from "../api/api";
-import parseJwt from "../lib/jwtParser";
 
 const router = useRouter();
-const storeModal = useModalStore();
-const store = useAppStore();
+const storeAuth = useAuthStore();
+
+const projectList = ref([]);
+const showCreateProjModal = ref(false);
 
 onMounted(async () => {
-  store.projectList = await api.getAllProjects(store.token);
-  store.userName = parseJwt(store.token).login;
+  projectList.value = await api.getAllProjects(storeAuth.token);
 });
 
+const showBoard = (id) => {
+  localStorage.setItem("activeProjId", id);
+};
+
+const closeCreateProjModal = async () => {
+  projectList.value = await api.getAllProjects(storeAuth.token);
+  showCreateProjModal.value = false;
+};
+
 const deleteProj = async (id) => {
-  const responseMessage = await api.deleteProject(store.token, id);
+  const responseMessage = await api.deleteProject(storeAuth.token, id);
   console.log(responseMessage);
-  store.projectList = await api.getAllProjects(store.token);
+  projectList.value = await api.getAllProjects(storeAuth.token);
 };
 
 const logOut = () => {
-  store.token = undefined;
-  store.userName = undefined;
-  localStorage.clear();
+  storeAuth.logOut();
   router.push("/signin");
-}
+};
 </script>
 
 <style scoped>
