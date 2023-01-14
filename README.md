@@ -27,3 +27,25 @@ npm run dev
 ```sh
 npm run build
 ```
+
+
+
+##api documentation
+
+```sh
+#### Auth
+* POST http://localhost:3001/auth/login
+* POST http://localhost:3001/auth/singUp
+
+#### Project
+* GET http://localhost:3001/projects/
+* POST http://localhost:3001/projects/
+* DELETE http://localhost:3001/projects/
+
+#### Column
+* GET http://localhost:3001/columns/:projectId
+* POST http://localhost:3001/columns/
+
+#### Card
+* GET http://localhost:3001/card/:columnId
+```
