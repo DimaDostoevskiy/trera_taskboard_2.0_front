@@ -6,6 +6,7 @@
           v-for="project in projectList"
           @click="showBoard(project.id)"
           :key="project.id"
+          :class="{ 'active-project': project.id === storeBoard.activeProjId }"
           class="project-item"
         >
           {{ project.name }}
@@ -47,11 +48,13 @@ import { useRouter } from "vue-router";
 import ModalCreateProj from "../components/ModalCreateProj.vue";
 
 import { useAuthStore } from "@/stores/useAuthStore";
+import { useBoardStore } from "@/stores/useBoardStore";
 
 import api from "../api/api";
 
 const router = useRouter();
 const storeAuth = useAuthStore();
+const storeBoard = useBoardStore();
 
 const projectList = ref([]);
 const showCreateProjModal = ref(false);
@@ -61,6 +64,8 @@ onMounted(async () => {
 });
 
 const showBoard = (id) => {
+  if (storeBoard.activeProjId === id) return;
+  storeBoard.loadBoard(id);
   localStorage.setItem("activeProjId", id);
 };
 

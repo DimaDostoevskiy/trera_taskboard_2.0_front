@@ -1,17 +1,17 @@
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 import api from "../api/api";
 import parseJwt from "../lib/jwtParser";
 
 export const useAuthStore = defineStore("auth", () => {
   const token = ref("");
-  const user = ref({});
+
+  const user = computed(() => parseJwt(token.value));
 
   async function signIn(eMail, password) {
     const response = await api.requestSignIn(eMail, password);
     if (!response) return;
     token.value = response;
-    user.value = parseJwt(response);
     localStorage.setItem("token", response);
   }
 
@@ -22,7 +22,7 @@ export const useAuthStore = defineStore("auth", () => {
 
   function logOut() {
     token.value = undefined;
-    user.value = null;
+    user.value = {};
     localStorage.clear();
   }
 

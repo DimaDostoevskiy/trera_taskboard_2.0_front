@@ -1,11 +1,17 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
+import api from "../api/api";
 
 export const useBoardStore = defineStore("board", () => {
-  const token = ref("");
-  const userName = ref("");
-  const projectsList = ref([]);
-  const activeProjId = ref(null)
+  const activeProjId = ref(undefined);
+  const columnsList = ref([]);
+  const cardsList = ref([]);
 
-  return { token, userName, projectsList, activeProjId };
+  async function loadBoard(id) {
+    activeProjId.value = id;
+    columnsList.value = await api.getColumns(id);
+    // cardsList.value = await api.getColumns(id);
+  }
+
+  return { activeProjId, columnsList, cardsList, loadBoard };
 });

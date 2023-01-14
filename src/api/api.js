@@ -73,12 +73,12 @@ export default {
    * @param {string} name
    * @returns {string} response message | undefined
    */
-  createProject: async (token, name) => {
+  createProject: async (token, projName) => {
     const response = await axios
       .post(
         `${basicRoute}projects/`,
         {
-          name: name,
+          name: projName,
         },
         {
           headers: {
@@ -97,14 +97,14 @@ export default {
    * @param {string} id
    * @returns {string} response message | undefined
    */
-  deleteProject: async (token, id) => {
+  deleteProject: async (token, projId) => {
     const response = await axios
       .delete(`${basicRoute}projects/`, {
         headers: {
           Authorization: token,
         },
         data: {
-          project_id: id,
+          project_id: projId,
         },
       })
       .catch(function (error) {
@@ -112,7 +112,13 @@ export default {
       });
     return response.status === 200 ? response.data.message : undefined;
   },
-  getAllColumns: async (token, projId) => {
+  /**
+   * get columns
+   * @param {string} token
+   * @param {number} projId
+   * @returns {Array} columns | []
+   */
+  getColumns: async (token, projId) => {
     const response = await axios
       .get(`${basicRoute}column/${projId}`, {
         headers: {
@@ -124,4 +130,5 @@ export default {
       });
     return response.status === 200 ? response.data : [];
   },
+  // getCards: async (id) => {},
 };
