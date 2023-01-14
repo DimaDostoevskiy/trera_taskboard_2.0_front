@@ -33,7 +33,7 @@
 import { ref } from "vue";
 
 import { useRouter } from "vue-router";
-import { useAuthStore } from "@/stores/useAuthStore";
+import useAuthStore from "@/stores/useAuthStore";
 
 import { useVuelidate } from "@vuelidate/core";
 import {
@@ -99,7 +99,7 @@ const signIn = async () => {
   margin: 40px auto 60px auto;
 }
 .link {
-  margin: 0px auto;
+  margin: 0 auto;
 }
 
 .validate {

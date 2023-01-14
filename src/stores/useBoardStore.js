@@ -2,16 +2,22 @@ import { ref } from "vue";
 import { defineStore } from "pinia";
 import api from "../api/api";
 
-export const useBoardStore = defineStore("board", () => {
+export default defineStore("board", () => {
   const activeProjId = ref(undefined);
   const columnsList = ref([]);
   const cardsList = ref([]);
 
-  async function loadBoard(id) {
+  const  loadBoard = async (token, id) => {
     activeProjId.value = id;
-    columnsList.value = await api.getColumns(id);
+    columnsList.value = await api.getColumns(token, id);
     // cardsList.value = await api.getColumns(id);
   }
 
-  return { activeProjId, columnsList, cardsList, loadBoard };
+  const createColumn = async (token, name) => {
+    if(!activeProjId.value) return;
+    const response = await api.createColumn(token, activeProjId.value, name);
+    columnsList.value.push(response.column);
+  }
+
+  return { activeProjId, columnsList, cardsList, loadBoard, createColumn };
 });

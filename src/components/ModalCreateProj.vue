@@ -26,7 +26,7 @@ import { ref, defineProps, defineEmits } from "vue";
 import { useVuelidate } from "@vuelidate/core";
 import { required, helpers, minLength, maxLength } from "@vuelidate/validators";
 
-import { useAuthStore } from "@/stores/useAuthStore";
+import useAuthStore from "@/stores/useAuthStore";
 
 import api from "../api/api";
 import validateMessages from "../config/validateMessages";
@@ -59,7 +59,6 @@ const v$ = useVuelidate(rules, { projectName });
 const createProj = async () => {
   const response = await api.createProject(storeAuth.token, projectName.value);
   if (!response) return;
-  console.log(response);
   emit("update");
   close();
 };
@@ -98,7 +97,7 @@ const close = () => {
   z-index: 5;
 }
 .input {
-  margin: 100px auto 0px auto;
+  margin: 100px auto 0 auto;
 }
 .validate {
   height: 30px;

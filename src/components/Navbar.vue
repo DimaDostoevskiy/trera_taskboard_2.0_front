@@ -47,8 +47,8 @@ import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import ModalCreateProj from "../components/ModalCreateProj.vue";
 
-import { useAuthStore } from "@/stores/useAuthStore";
-import { useBoardStore } from "@/stores/useBoardStore";
+import useAuthStore from "@/stores/useAuthStore";
+import useBoardStore from "@/stores/useBoardStore";
 
 import api from "../api/api";
 
@@ -65,7 +65,7 @@ onMounted(async () => {
 
 const showBoard = (id) => {
   if (storeBoard.activeProjId === id) return;
-  storeBoard.loadBoard(id);
+  storeBoard.loadBoard(storeAuth.token, id);
   localStorage.setItem("activeProjId", id);
 };
 
@@ -158,6 +158,9 @@ const logOut = () => {
   text-decoration: none;
   white-space: nowrap;
   background-color: var(--color-background-secondary);
+}
+.active-project{
+  background-color: #3a3a3a;
 }
 .icon {
   margin-left: 10px;
