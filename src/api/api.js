@@ -119,7 +119,7 @@ export default {
    * @returns {Array} columns | []
    */
   getColumns: async (token, projId) => {
-  if(!projId) return [];
+    if (!projId) return [];
 
     const response = await axios
       .get(`${basicRoute}columns/${projId}`, {
@@ -133,25 +133,26 @@ export default {
     return response.status === 200 ? response.data : [];
   },
 
-    createColumn: async(token, projId, columnName) => {
-        const response = await axios
-            .post(`${basicRoute}columns/`,
-                {
-                    name: columnName,
-                    position: 0,
-                    project_id: projId
-                },
-                {
-                    headers: {
-                        Authorization: token,
-                    },
-                }
-            )
-            .catch(function (error) {
-                console.error(error);
-            });
+  createColumn: async (token, projId, columnName) => {
+    const response = await axios
+      .post(
+        `${basicRoute}columns/`,
+        {
+          name: columnName,
+          position: 0,
+          project_id: projId,
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      )
+      .catch(function (error) {
+        console.error(error);
+      });
 
-        return response.status === 200 ? response.data : [];
-    }
-  // getCards: async (id) => {},
+    return response.status === 200 ? response.data : [];
+  },
+  getCards: async (id) => {},
 };
