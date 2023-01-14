@@ -10,7 +10,7 @@ export default defineStore("board", () => {
   const  loadBoard = async (token, id) => {
     activeProjId.value = id;
     columnsList.value = await api.getColumns(token, id);
-    // cardsList.value = await api.getColumns(id);
+    cardsList.value = await api.getCards(token, id);
   }
 
   const createColumn = async (token, name) => {
