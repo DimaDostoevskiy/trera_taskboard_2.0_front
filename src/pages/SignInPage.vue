@@ -4,7 +4,8 @@
       <input
         class="input"
         v-model="eMail"
-        placeholder=" fuck@yandex.ru"
+        @keydown="ISubmit($event, signIn)"
+        placeholder="fuck@yandex.ru"
         type="text"
       />
       <div class="validate">
@@ -15,7 +16,8 @@
       <input
         class="input"
         v-model="password"
-        placeholder=" надёжный пароль"
+        @keydown="ISubmit($event, signIn)"
+        placeholder="надёжный пароль"
         type="password"
       />
       <div class="validate">
@@ -45,6 +47,7 @@ import {
 } from "@vuelidate/validators";
 
 import validateMessages from "../config/validateMessages";
+import ISubmit from "../lib/ISubmit";
 
 const router = useRouter();
 const storeAuth = useAuthStore();
