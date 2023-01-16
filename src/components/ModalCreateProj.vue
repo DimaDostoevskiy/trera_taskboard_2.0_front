@@ -107,6 +107,6 @@ const close = () => {
   color: var(--color-danger);
 }
 .btn {
-  margin-bottom: 100px;
+  margin-bottom: 76px;
 }
 </style>
