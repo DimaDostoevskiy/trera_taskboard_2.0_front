@@ -61,6 +61,7 @@ const showCreateProjModal = ref(false);
 
 onMounted(async () => {
   projectList.value = await api.getAllProjects(storeAuth.token);
+  if (storeBoard.activeProjId) showBoard(storeBoard.activeProjId);
 });
 
 const showBoard = (id) => {
@@ -93,6 +94,7 @@ const logOut = () => {
   align-items: center;
   margin: 0 0 25px 0;
 }
+
 .navbar-panel {
   display: flex;
   align-items: center;
@@ -103,6 +105,7 @@ const logOut = () => {
   border-radius: 8px;
   background-color: var(--color-bg-board);
 }
+
 .projects {
   display: flex;
   justify-content: flex-start;
@@ -110,6 +113,7 @@ const logOut = () => {
   width: 100%;
   border-radius: 8px;
 }
+
 .project-item {
   display: flex;
   justify-content: end;
@@ -124,6 +128,7 @@ const logOut = () => {
   background-color: var(--color-background-secondary);
   cursor: pointer;
 }
+
 .current-user {
   display: flex;
   justify-content: flex-start;
@@ -136,11 +141,13 @@ const logOut = () => {
   border-radius: 8px;
   background-color: var(--color-bg-board);
 }
+
 .controls {
   display: flex;
   justify-content: flex-end;
   padding: 0 20px;
 }
+
 .btn-create-proj {
   display: flex;
   justify-content: flex-end;
@@ -159,9 +166,11 @@ const logOut = () => {
   white-space: nowrap;
   background-color: var(--color-background-secondary);
 }
-.active-project{
+
+.active-project {
   background-color: #3a3a3a;
 }
+
 .icon {
   margin-left: 10px;
 }

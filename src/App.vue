@@ -6,7 +6,7 @@
 import { onMounted } from "vue";
 import router from "@/router/index";
 import useAuthStore from "@/stores/useAuthStore";
-import useBoardStore from "@/stores/useAuthStore";
+import useBoardStore from "@/stores/useBoardStore";
 
 const storeAuth = useAuthStore();
 const storeBoard = useBoardStore();
@@ -16,11 +16,9 @@ onMounted(async () => {
   const activeProjId = localStorage.getItem("activeProjId");
 
   if (token) {
-
-    if(activeProjId){
-      storeBoard.activeProjId = activeProjId;
+    if (activeProjId) {
+      storeBoard.setActiveProjId(activeProjId);
     }
-
     storeAuth.token = token;
     router.push("/");
   } else {
@@ -28,5 +26,3 @@ onMounted(async () => {
   }
 });
 </script>
-
-<style scoped></style>
