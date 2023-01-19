@@ -1,10 +1,10 @@
 <template>
   <div v-if="isOpen" class="modal">
-    <div class="overlay" @click="modalClose"></div>
+    <div @click="modalClose" class="overlay"></div>
     <div class="card">
       <slot :name="'modalHeader'"></slot>
       <slot :name="'modalBody'"></slot>
-      <button @click="modalSubmit" class="btn">
+      <button @click="modalSubmit" :disabled="isDisabled" class="btn">
         {{ btnText }}
       </button>
     </div>
@@ -14,7 +14,7 @@
 <script setup>
 import { defineProps } from "vue";
 
-defineProps(["isOpen", "btnText"]);
+defineProps(["isOpen", "btnText", "isDisabled"]);
 const emit = defineEmits(["mSubmit", "mClose"]);
 
 const modalClose = (e) => {

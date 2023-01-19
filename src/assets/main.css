@@ -125,3 +125,11 @@
   height: 32px;
   cursor: pointer;
 }
+
+.validate {
+  padding-left: 12px;
+  height: 30px;
+}
+.validate__message {
+  color: var(--color-danger);
+}
