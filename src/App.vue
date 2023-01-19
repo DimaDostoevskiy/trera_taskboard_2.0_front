@@ -16,7 +16,9 @@ onMounted(async () => {
   const activeProjId = localStorage.getItem("activeProjId");
 
   if (token) {
-    storeBoard.setActiveProjId(activeProjId);
+    if (activeProjId) {
+      storeBoard.setActiveProjId(activeProjId);
+    }
     storeAuth.token = token;
     router.push("/");
   } else {
@@ -24,7 +26,3 @@ onMounted(async () => {
   }
 });
 </script>
-
-<style scoped>
-
-</style>

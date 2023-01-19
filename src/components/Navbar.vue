@@ -2,14 +2,25 @@
   <nav class="navbar">
     <div class="navbar-panel">
       <div class="projects">
-        <div v-for="project in projectList" @click="showBoard(project.id)" :key="project.id"
-          :class="{ 'active-project': project.id === storeBoard.activeProjId }" class="project-item">
+        <div
+          v-for="project in projectList"
+          @click="showBoard(project.id)"
+          :key="project.id"
+          :class="{ 'active-project': project.id === storeBoard.activeProjId }"
+          class="project-item"
+        >
           {{ project.name }}
-          <img @click="deleteProj(project.id)" class="icon" src="../assets/images/g_delete.png" alt="delete" />
+          <img
+            @click="deleteProj(project.id)"
+            class="icon"
+            src="../assets/images/g_delete.png"
+            alt="delete"
+          />
         </div>
       </div>
       <div class="controls">
-        <a class="btn-create-proj" @click="showCreateProjModal = true">Создать проект
+        <a class="btn-create-proj" @click="showCreateProjModal = true"
+          >Создать проект
           <img class="icon" src="../assets/images/g_add.png" alt="add" />
         </a>
       </div>
@@ -17,10 +28,18 @@
     <div class="current-user">
       {{ storeAuth.user?.login }}
       <img class="icon" src="../assets/images/g_gear.png" alt="gear" />
-      <img class="icon" @click="logOut" src="../assets/images/g_logut.png" alt="logout" />
+      <img
+        class="icon"
+        @click="logOut"
+        src="../assets/images/g_logut.png"
+        alt="logout"
+      />
     </div>
   </nav>
-  <ModalCreateProj :is-show="showCreateProjModal" @close="closeCreateProjModal" />
+  <ModalCreateProj
+    :is-show="showCreateProjModal"
+    @close="closeCreateProjModal"
+  />
 </template>
 
 <script setup>
