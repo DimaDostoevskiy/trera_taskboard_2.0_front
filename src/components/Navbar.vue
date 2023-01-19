@@ -2,25 +2,14 @@
   <nav class="navbar">
     <div class="navbar-panel">
       <div class="projects">
-        <div
-          v-for="project in projectList"
-          @click="showBoard(project.id)"
-          :key="project.id"
-          :class="{ 'active-project': project.id === storeBoard.activeProjId }"
-          class="project-item"
-        >
+        <div v-for="project in projectList" @click="showBoard(project.id)" :key="project.id"
+          :class="{ 'active-project': project.id === storeBoard.activeProjId }" class="project-item">
           {{ project.name }}
-          <img
-            @click="deleteProj(project.id)"
-            class="icon"
-            src="../assets/images/g_delete.png"
-            alt="delete"
-          />
+          <img @click="deleteProj(project.id)" class="icon" src="../assets/images/g_delete.png" alt="delete" />
         </div>
       </div>
       <div class="controls">
-        <a class="btn-create-proj" @click="showCreateProjModal = true"
-          >Создать проект
+        <a class="btn-create-proj" @click="showCreateProjModal = true">Создать проект
           <img class="icon" src="../assets/images/g_add.png" alt="add" />
         </a>
       </div>
@@ -28,18 +17,10 @@
     <div class="current-user">
       {{ storeAuth.user?.login }}
       <img class="icon" src="../assets/images/g_gear.png" alt="gear" />
-      <img
-        class="icon"
-        @click="logOut"
-        src="../assets/images/g_logut.png"
-        alt="logout"
-      />
+      <img class="icon" @click="logOut" src="../assets/images/g_logut.png" alt="logout" />
     </div>
   </nav>
-  <ModalCreateProj
-    :is-show="showCreateProjModal"
-    @close="closeCreateProjModal"
-  />
+  <ModalCreateProj :is-show="showCreateProjModal" @close="closeCreateProjModal" />
 </template>
 
 <script setup>
@@ -61,6 +42,7 @@ const showCreateProjModal = ref(false);
 
 onMounted(async () => {
   projectList.value = await api.getAllProjects(storeAuth.token);
+  if (storeBoard.activeProjId) showBoard(storeBoard.activeProjId);
 });
 
 const showBoard = (id) => {
@@ -93,6 +75,7 @@ const logOut = () => {
   align-items: center;
   margin: 0 0 25px 0;
 }
+
 .navbar-panel {
   display: flex;
   align-items: center;
@@ -103,6 +86,7 @@ const logOut = () => {
   border-radius: 8px;
   background-color: var(--color-bg-board);
 }
+
 .projects {
   display: flex;
   justify-content: flex-start;
@@ -110,6 +94,7 @@ const logOut = () => {
   width: 100%;
   border-radius: 8px;
 }
+
 .project-item {
   display: flex;
   justify-content: end;
@@ -124,6 +109,7 @@ const logOut = () => {
   background-color: var(--color-background-secondary);
   cursor: pointer;
 }
+
 .current-user {
   display: flex;
   justify-content: flex-start;
@@ -136,11 +122,13 @@ const logOut = () => {
   border-radius: 8px;
   background-color: var(--color-bg-board);
 }
+
 .controls {
   display: flex;
   justify-content: flex-end;
   padding: 0 20px;
 }
+
 .btn-create-proj {
   display: flex;
   justify-content: flex-end;
@@ -159,9 +147,11 @@ const logOut = () => {
   white-space: nowrap;
   background-color: var(--color-background-secondary);
 }
-.active-project{
+
+.active-project {
   background-color: #3a3a3a;
 }
+
 .icon {
   margin-left: 10px;
 }

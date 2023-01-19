@@ -6,41 +6,21 @@
     <div class="column">
       <div @click="createModal = !createModal" v-if="!createModal" class="btn">Новая колонка</div>
       <p v-if="projectName" class="column-header">{{ projectName }}</p>
-<!--      <form v-else action="" @submit.prevent="createColumn">-->
-<!--        <input type="text" v-model="projectName" class="input"/>-->
-<!--      </form>-->
     </div>
 
-
-
     <!--  ModalComponent [add column] -->
-    <Modal
-        btnText="Добавить колонку"
-        :isOpen="createModal"
-        @mSubmit="createColumn"
-        @mClose="createModal = false"
-    >
+    <Modal btnText="Добавить колонку" :isOpen="createModal" @mSubmit="createColumn" @mClose="createModal = false">
       <template v-slot:modalBody>
-        <input
-            name="modal-body"
-            class="input-modal"
-            v-model="projectName"
-            @keydown="iSubmit($event, createColumn)"
-            placeholder="Название колонки"
-            type="text"
-        />
+        <input name="modal-body" class="input-modal" v-model="projectName" @keydown="iSubmit($event, createColumn)"
+          placeholder="Название колонки" type="text" />
       </template>
     </Modal>
-
-
-
-
 
   </div>
 </template>
 
 <script setup>
-import {ref, onMounted} from "vue";
+import { ref, onMounted } from "vue";
 import Modal from "@/components/kit/Modal.vue";
 import api from "../api/api";
 import iSubmit from "@/lib/ISubmit"
@@ -69,8 +49,8 @@ const createColumn = () => {
 onMounted(async () => {
   await storeBoard.loadBoard(storeAuth.token, storeBoard.activeProjId);
   storeBoard.columnsList.value = await api.getColumns(
-      storeAuth.token,
-      storeBoard.activeProjId
+    storeAuth.token,
+    storeBoard.activeProjId
   );
 });
 </script>
