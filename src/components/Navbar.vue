@@ -36,28 +36,73 @@
       />
     </div>
   </nav>
-  <ModalCreateProj
-    :is-show="showCreateProjModal"
-    @close="closeCreateProjModal"
-  />
+
+  <!--  ModalComponent [add project] -->
+  <Modal
+    btnText="Создать проект"
+    :isDisabled="v$.$invalid"
+    :isOpen="showCreateProjModal"
+    @mSubmit="createProj"
+    @mClose="showCreateProjModal = false"
+  >
+    <template v-slot:modalBody>
+      <input
+        name="modal-body"
+        class="input-modal"
+        v-model="newProjName"
+        @keydown="iSubmit($event, createProj)"
+        placeholder="Название проекта"
+        type="text"
+      />
+      <div class="validate">
+        <span class="validate__message">
+          {{ v$.newProjName?.$errors[0]?.$message }}
+        </span>
+      </div>
+    </template>
+  </Modal>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import ModalCreateProj from "../components/ModalCreateProj.vue";
 
 import useAuthStore from "@/stores/useAuthStore";
 import useBoardStore from "@/stores/useBoardStore";
 
 import api from "../api/api";
 
+import Modal from "@/components/kit/Modal.vue";
+import iSubmit from "@/lib/ISubmit";
+
+import { useVuelidate } from "@vuelidate/core";
+import { required, helpers, minLength, maxLength } from "@vuelidate/validators";
+import validateMessages from "../config/validateMessages";
+
 const router = useRouter();
 const storeAuth = useAuthStore();
 const storeBoard = useBoardStore();
 
 const projectList = ref([]);
+const newProjName = ref("");
 const showCreateProjModal = ref(false);
+
+const rules = {
+  newProjName: {
+    minLength: helpers.withMessage(
+      () => validateMessages.minLenght,
+      minLength(4)
+    ),
+    maxLength: helpers.withMessage(
+      () => validateMessages.maxLenght,
+      maxLength(30)
+    ),
+    required: helpers.withMessage(validateMessages.required, required),
+    $autoDirty: true,
+  },
+};
+
+const v$ = useVuelidate(rules, { newProjName });
 
 onMounted(async () => {
   projectList.value = await api.getAllProjects(storeAuth.token);
@@ -70,9 +115,14 @@ const showBoard = (id) => {
   localStorage.setItem("activeProjId", id);
 };
 
-const closeCreateProjModal = async () => {
+const createProj = async () => {
+  const response = await api.createProject(storeAuth.token, newProjName.value);
+  if (!response) return;
+  //TODO: Show toast
+  console.log(response);
   projectList.value = await api.getAllProjects(storeAuth.token);
   showCreateProjModal.value = false;
+  newProjName.value = "";
 };
 
 const deleteProj = async (id) => {
