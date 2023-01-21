@@ -26,7 +26,7 @@
         </span>
       </div>
       <button :disabled="v$.$invalid" class="btn" @click="signIn">Войти</button>
-      <router-link class="link" to="/signup">Зарегестрироваться</router-link>
+      <router-link class="link" to="/signup">Зарегистрироваться</router-link>
     </div>
   </div>
 </template>
