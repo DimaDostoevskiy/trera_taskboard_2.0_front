@@ -1,68 +1,38 @@
-# trera
+# Trera
+[![Typing SVG](https://readme-typing-svg.herokuapp.com?color=%2336BCF7&lines=Last+task+manager+you+will+need)](https://git.io/typing-svg)
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and
-disable Vetur)
-+ [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
 
 ## api documentation
 
-
 #### Auth
-```sh
-* POST http://localhost:3001/auth/login
-* POST http://localhost:3001/auth/singUp
-```
+
+* POST `http://localhost:3001/auth/login`
+* POST `http://localhost:3001/auth/singUp`
 
 #### Project
-```sh
-* GET http://localhost:3001/projects/
-* POST http://localhost:3001/projects/
-* DELETE http://localhost:3001/projects/
-```
+
+* GET `http://localhost:3001/projects/get-all`
+* POST `http://localhost:3001/projects/create-project`
+  - `name`
+  
+
+* DELETE `http://localhost:3001/projects/delete-project`
+  - `project_id`
+
 
 #### Column
-```sh
-* GET http://localhost:3001/columns/:projectId
-* POST http://localhost:3001/columns/
-```
+
+* GET `http://localhost:3001/columns/get-project-columns/:projectId`
+* POST `http://localhost:3001/columns/create-column`
+  - `name`
+  - `position`
+  - `project_id`
+
 
 #### Card
-```sh
-* GET http://localhost:3001/card/:columnId
-```
-
-```sh
-* POST http://localhost:3001/card/
-
---fields--
-name
-summery
-description
-column_id
-```
+* GET `http://localhost:3001/card/:columnId`
+* POST `http://localhost:3001/card/`
+    - `name`
+    - `summery`
+    - `description`
+    - `column_id`
