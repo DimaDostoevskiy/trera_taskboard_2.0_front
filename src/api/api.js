@@ -57,7 +57,7 @@ export default {
    */
   getAllProjects: async (token) => {
     const response = await axios
-      .get(`${basicRoute}projects/`, {
+      .get(`${basicRoute}projects/get-all/`, {
         headers: {
           Authorization: token,
         },
@@ -76,7 +76,7 @@ export default {
   createProject: async (token, projName) => {
     const response = await axios
       .post(
-        `${basicRoute}projects/`,
+        `${basicRoute}projects/create-project/`,
         {
           name: projName,
         },
@@ -99,7 +99,7 @@ export default {
    */
   deleteProject: async (token, projId) => {
     const response = await axios
-      .delete(`${basicRoute}projects/`, {
+      .delete(`${basicRoute}projects/delete-project/`, {
         headers: {
           Authorization: token,
         },
@@ -122,7 +122,7 @@ export default {
     if (!projId) return [];
 
     const response = await axios
-      .get(`${basicRoute}columns/${projId}`, {
+      .get(`${basicRoute}columns/get-project-columns/${projId}`, {
         headers: {
           Authorization: token,
         },
@@ -136,7 +136,7 @@ export default {
   createColumn: async (token, projId, columnName) => {
     const response = await axios
       .post(
-        `${basicRoute}columns/`,
+        `${basicRoute}columns/create-column/`,
         {
           name: columnName,
           position: 0,
