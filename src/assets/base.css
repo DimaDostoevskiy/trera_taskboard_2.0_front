@@ -5,13 +5,14 @@
 :root {
   --bg-white: #ffffff;
   --bg-white-secondary: #f2f2f2;
-  --bg-board-white: #c7c7c7;
-  --text-primary-white: #000000;
   --text-white: rgb(42, 42, 42);
+  --text-primary-white: #0f0f0f;
   --btn-color-white: #f3f3f3;
   --btn-color-hover-white: #ffffff;
+  --input-border-white: #0f0f0f;
+  --bg-board-white: #c7c7c7;
   --column-bg-white: #3A3C49;
-
+  
   --bg-black: #1f2227;
   --bg-black-secondary: #282a34;
   --bg-board-black: #282a34;
@@ -19,22 +20,24 @@
   --text-black: #7a7878;
   --btn-color-dark: #292929;
   --btn-color-hover-dark: #3a3a3a;
+  --input-border-black: #0f0f0f;
   --column-bg-black: #3A3C49;
 }
 :root {
   --color-background: var(--bg-white);
   --color-background-secondary: var(--bg-white-secondary);
-  --color-bg-board: var(--bg-board-white);
   --color-text: var(--text-white);
   --color-text-primary: var(--text-primary-white);
   --color-btn: var(--btn-color-white);
   --color-btn-hover: var(--btn-color-hover-white);
+  --color-input-border: var(--input-border-white);
+  --color-bg-board: var(--bg-board-white);
   --color-bg-column: var(--column-bg-white);
   --color-danger: #ff0909;
   --color-success: #0eff06;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --color-background: var(--bg-black);
     --color-background-secondary: var(--bg-black-secondary);
@@ -47,7 +50,7 @@
     --color-danger: #ff0909;
     --color-success: #0eff06;
   }
-}
+} */
 
 *,
 *::before,

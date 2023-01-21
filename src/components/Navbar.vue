@@ -126,6 +126,10 @@ const createProj = async () => {
 };
 
 const deleteProj = async (id) => {
+  if (storeBoard.activeProjId === id) {
+    storeBoard.activeProjId = undefined;
+    localStorage.setItem("activeProjId", undefined);
+  }
   const responseMessage = await api.deleteProject(storeAuth.token, id);
   console.log(responseMessage);
   projectList.value = await api.getAllProjects(storeAuth.token);
@@ -225,3 +229,4 @@ const logOut = () => {
   margin-left: 10px;
 }
 </style>
+hjhgj

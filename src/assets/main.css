@@ -27,7 +27,7 @@
   border: 0;
   border-bottom: 1px solid;
   color: var(--color-text);
-  border-color: rgb(206, 206, 206);
+  border-color: var(--color-input-border);
   background-color: var(--color-bg-board);
 }
 .input-modal {
