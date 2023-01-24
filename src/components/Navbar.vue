@@ -38,7 +38,7 @@
   </nav>
 
   <!--  ModalComponent [add project] -->
-  <Modal
+  <TrModal
     btnText="Создать проект"
     :isDisabled="v$.$invalid"
     :isOpen="showCreateProjModal"
@@ -46,38 +46,33 @@
     @mClose="showCreateProjModal = false"
   >
     <template v-slot:modalBody>
-      <input
-        name="modal-body"
-        class="input-modal"
-        v-model="newProjName"
-        @keydown="iSubmit($event, createProj)"
+      <TrInput
+        inputType="text"
         placeholder="Название проекта"
-        type="text"
+        v-model="newProjName"
+        :validateMessage="v$.newProjName?.$errors[0]?.$message"
+        @inputSubmit="createProj"
       />
-      <div class="validate">
-        <span class="validate__message">
-          {{ v$.newProjName?.$errors[0]?.$message }}
-        </span>
-      </div>
     </template>
-  </Modal>
+  </TrModal>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
+
+import TrModal from "@/components/kit/TrModal.vue";
+import TrInput from "@/components/kit/TrInput.vue";
+
 import { useRouter } from "vue-router";
 
 import useAuthStore from "@/stores/useAuthStore";
 import useBoardStore from "@/stores/useBoardStore";
 
-import api from "../api/api";
-
-import Modal from "@/components/kit/Modal.vue";
-import iSubmit from "@/lib/ISubmit";
+import api from "@/api/api";
 
 import { useVuelidate } from "@vuelidate/core";
 import { required, helpers, minLength, maxLength } from "@vuelidate/validators";
-import validateMessages from "../config/validateMessages";
+import validateMessages from "@/config/validateMessages";
 
 const router = useRouter();
 const storeAuth = useAuthStore();
@@ -118,8 +113,6 @@ const showBoard = (id) => {
 const createProj = async () => {
   const response = await api.createProject(storeAuth.token, newProjName.value);
   if (!response) return;
-  //TODO: Show toast
-  console.log(response);
   projectList.value = await api.getAllProjects(storeAuth.token);
   showCreateProjModal.value = false;
   newProjName.value = "";
@@ -229,4 +222,3 @@ const logOut = () => {
   margin-left: 10px;
 }
 </style>
-hjhgj

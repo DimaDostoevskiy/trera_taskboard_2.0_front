@@ -12,33 +12,35 @@
         v-model="eMail"
         placeholder=" fuck@yandex.ru"
         type="text"
-      />
-      <div class="validate">
-        <span class="validate__message">
-          {{ v$.eMail?.$errors[0]?.$message }}
-        </span>
-      </div>
-      <input
+        />
+        <div class="validate">
+          <span class="validate__message">
+            {{ v$.eMail?.$errors[0]?.$message }}
+          </span>
+        </div>
+        <input
         class="input"
         v-model="password"
         placeholder=" надёжный пароль"
         type="password"
-      />
-      <div class="validate">
-        <span class="validate__message">
-          {{ v$.password?.$errors[0]?.$message }}
-        </span>
+        />
+        <div class="validate">
+          <span class="validate__message">
+            {{ v$.password?.$errors[0]?.$message }}
+          </span>
+        </div>
+        <button :disabled="v$.$invalid" class="btn" @click="signUp">
+          Зарегистрироваться
+        </button>
       </div>
-      <button :disabled="v$.$invalid" class="btn" @click="signUp">
-        Зарегистрироваться
-      </button>
     </div>
-  </div>
-</template>
+  </template>
 
 <script setup>
 import { ref } from "vue";
+
 import { useRouter } from "vue-router";
+
 import useAuthStore from "@/stores/useAuthStore";
 import { useVuelidate } from "@vuelidate/core";
 import {
@@ -58,6 +60,7 @@ const password = ref("");
 
 // #region validate
 
+// TODO: Заменить на инпут из kita
 const rules = {
   name: {
     minLength: helpers.withMessage(() => "имя слишком короткое", minLength(4)),

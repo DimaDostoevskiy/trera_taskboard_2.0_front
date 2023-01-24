@@ -11,7 +11,7 @@
     </div>
 
     <!--  ModalComponent [add column] -->
-    <Modal
+    <TrModal
       btnText="Добавить колонку"
       :isOpen="createModal"
       @mSubmit="createColumn"
@@ -27,13 +27,13 @@
           type="text"
         />
       </template>
-    </Modal>
+    </TrModal>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
-import Modal from "@/components/kit/Modal.vue";
+import TrModal from "@/components/kit/TrModal.vue";
 import api from "../api/api";
 import iSubmit from "@/lib/ISubmit";
 
