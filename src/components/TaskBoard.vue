@@ -4,9 +4,7 @@
       <p class="column-header">{{ item.name }}</p>
     </div>
     <div class="column">
-      <div @click="createModal = !createModal" v-if="!createModal" class="btn">
-        Новая колонка
-      </div>
+      <div @click="showNewColumnModal" class="btn">Новая колонка</div>
       <p v-if="projectName" class="column-header">{{ projectName }}</p>
     </div>
 
@@ -18,13 +16,12 @@
       @mClose="createModal = false"
     >
       <template v-slot:modalBody>
-        <input
-          name="modal-body"
-          class="input-modal"
+        <TrInput
+          inputType="text"
+          placeholder=" название колонки"
           v-model="projectName"
-          @keydown="iSubmit($event, createColumn)"
-          placeholder="Название колонки"
-          type="text"
+          :validateMessage="v$.projectName?.$errors[0]?.$message"
+          @inputSubmit="createColumn"
         />
       </template>
     </TrModal>
@@ -33,12 +30,18 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
+
 import TrModal from "@/components/kit/TrModal.vue";
-import api from "../api/api";
-import iSubmit from "@/lib/ISubmit";
+import TrInput from "@/components/kit/TrInput.vue";
 
 import useAuthStore from "@/stores/useAuthStore";
-import useBoardStore from "../stores/useBoardStore";
+import useBoardStore from "@/stores/useBoardStore";
+
+import api from "@/api/api";
+
+import { useVuelidate } from "@vuelidate/core";
+import { required, helpers, minLength, maxLength } from "@vuelidate/validators";
+import validateMessages from "@/config/validateMessages";
 
 const storeAuth = useAuthStore();
 const storeBoard = useBoardStore();
@@ -46,17 +49,22 @@ const storeBoard = useBoardStore();
 const createModal = ref(false);
 const projectName = ref("");
 
-const createColumn = () => {
-  if (projectName.value) {
-    if (!storeBoard.activeProjId) {
-      //:TODO toast "Выберите проект"
-      console.log(`Выберите проект`);
-    }
-    storeBoard.createColumn(storeAuth.token, projectName.value);
-    projectName.value = "";
-    createModal.value = false;
-  }
+const rules = {
+  projectName: {
+    minLength: helpers.withMessage(
+      () => validateMessages.minLenght,
+      minLength(4)
+    ),
+    maxLength: helpers.withMessage(
+      () => validateMessages.maxLenght,
+      maxLength(30)
+    ),
+    required: helpers.withMessage(validateMessages.required, required),
+    $autoDirty: true,
+  },
 };
+
+const v$ = useVuelidate(rules, { projectName });
 
 onMounted(async () => {
   await storeBoard.loadBoard(storeAuth.token, storeBoard.activeProjId);
@@ -65,6 +73,19 @@ onMounted(async () => {
     storeBoard.activeProjId
   );
 });
+
+const createColumn = () => {
+  if (!projectName.value || !storeBoard.activeProjId) return;
+  storeBoard.createColumn(storeAuth.token, projectName.value);
+  projectName.value = "";
+  v$.value.$reset();
+  createModal.value = false;
+};
+
+const showNewColumnModal = () => {
+  if (!storeBoard.activeProjId) return;
+  createModal.value = true;
+};
 </script>
 
 <style scoped>

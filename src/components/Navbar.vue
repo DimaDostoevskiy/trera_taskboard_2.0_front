@@ -3,11 +3,11 @@
     <div class="navbar-panel">
       <div class="projects">
         <div
+          class="project-item"
           v-for="project in projectList"
           @click="showBoard(project.id)"
           :key="project.id"
           :class="{ 'active-project': project.id === storeBoard.activeProjId }"
-          class="project-item"
         >
           {{ project.name }}
           <img
@@ -105,7 +105,7 @@ onMounted(async () => {
 });
 
 const showBoard = (id) => {
-  if (storeBoard.activeProjId === id) return;
+  storeBoard.setActiveProjId(id);
   storeBoard.loadBoard(storeAuth.token, id);
   localStorage.setItem("activeProjId", id);
 };
@@ -116,6 +116,7 @@ const createProj = async () => {
   projectList.value = await api.getAllProjects(storeAuth.token);
   showCreateProjModal.value = false;
   newProjName.value = "";
+  v$.value.$reset();
 };
 
 const deleteProj = async (id) => {

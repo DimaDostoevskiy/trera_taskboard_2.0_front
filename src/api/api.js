@@ -154,5 +154,5 @@ export default {
 
     return response.status === 200 ? response.data : [];
   },
-  getCards: async (id) => {},
+  getCards: async () => {},
 };

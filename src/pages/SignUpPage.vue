@@ -1,47 +1,42 @@
 <template>
   <div class="signup">
     <div class="card">
-      <input class="input" v-model="name" placeholder=" имя" type="text" />
-      <div class="validate">
-        <span class="validate__message">
-          {{ v$.name?.$errors[0]?.$message }}
-        </span>
-      </div>
-      <input
-        class="input"
-        v-model="eMail"
+      <TrInput
+        inputType="text"
+        placeholder=" Ваше имя"
+        v-model="name"
+        :validateMessage="v$.name?.$errors[0]?.$message"
+        @inputSubmit="signUp"
+      />
+      <TrInput
+        inputType="text"
         placeholder=" fuck@yandex.ru"
-        type="text"
-        />
-        <div class="validate">
-          <span class="validate__message">
-            {{ v$.eMail?.$errors[0]?.$message }}
-          </span>
-        </div>
-        <input
-        class="input"
-        v-model="password"
+        v-model="eMail"
+        :validateMessage="v$.eMail?.$errors[0]?.$message"
+        @inputSubmit="signUp"
+      />
+      <TrInput
+        inputType="password"
         placeholder=" надёжный пароль"
-        type="password"
-        />
-        <div class="validate">
-          <span class="validate__message">
-            {{ v$.password?.$errors[0]?.$message }}
-          </span>
-        </div>
-        <button :disabled="v$.$invalid" class="btn" @click="signUp">
-          Зарегистрироваться
-        </button>
-      </div>
+        v-model="password"
+        :validateMessage="v$.password?.$errors[0]?.$message"
+        @inputSubmit="signUp"
+      />
+      <button :disabled="v$.$invalid" class="btn" @click="signUp">
+        Зарегистрироваться
+      </button>
     </div>
-  </template>
+  </div>
+</template>
 
 <script setup>
 import { ref } from "vue";
 
-import { useRouter } from "vue-router";
+import TrInput from "@/components/kit/TrInput.vue";
 
+import { useRouter } from "vue-router";
 import useAuthStore from "@/stores/useAuthStore";
+
 import { useVuelidate } from "@vuelidate/core";
 import {
   required,
@@ -50,6 +45,7 @@ import {
   maxLength,
   email,
 } from "@vuelidate/validators";
+import validateMessages from "@/config/validateMessages";
 
 const router = useRouter();
 const storeAuth = useAuthStore();
@@ -58,41 +54,42 @@ const name = ref("");
 const eMail = ref("");
 const password = ref("");
 
-// #region validate
-
-// TODO: Заменить на инпут из kita
 const rules = {
   name: {
-    minLength: helpers.withMessage(() => "имя слишком короткое", minLength(4)),
-    maxLength: helpers.withMessage(() => "имя слишком длинное", maxLength(30)),
-    required: helpers.withMessage("поле необходимо заполнить", required),
+    minLength: helpers.withMessage(
+      () => validateMessages.minLenght,
+      minLength(4)
+    ),
+    maxLength: helpers.withMessage(
+      () => validateMessages.maxLenght,
+      maxLength(30)
+    ),
+    required: helpers.withMessage(validateMessages.required, required),
     $autoDirty: true,
   },
   eMail: {
-    minLength: helpers.withMessage(() => "Имя слишком короткое", minLength(4)),
-    maxLength: helpers.withMessage(() => "Имя слишком длинное", maxLength(30)),
-    required: helpers.withMessage("Поле необходимо заполнить", required),
-    email: helpers.withMessage("Некорректный email", email),
+    required: helpers.withMessage(validateMessages.required, required),
+    email: helpers.withMessage(validateMessages.email, email),
     $autoDirty: true,
   },
   password: {
     minLength: helpers.withMessage(
-      () => "Пароль слишком короткий",
+      () => validateMessages.minLenght,
       minLength(4)
     ),
     maxLength: helpers.withMessage(
-      () => "Пароль слишком длинный",
-      maxLength(12)
+      () => validateMessages.maxLenght,
+      maxLength(30)
     ),
-    required: helpers.withMessage("Поле необходимо заполнить", required),
+    required: helpers.withMessage(validateMessages.required, required),
     $autoDirty: true,
   },
 };
 
 const v$ = useVuelidate(rules, { name, eMail, password });
-// #endregion validate
 
 const signUp = async () => {
+  if (v$.value.$invalid) return;
   await storeAuth.signUp(name.value, eMail.value, password.value);
   if (storeAuth.token) router.push("/");
 };
@@ -109,12 +106,5 @@ const signUp = async () => {
 }
 .btn {
   margin: 30px auto;
-}
-.validate {
-  height: 30px;
-  margin-bottom: 20px;
-}
-.validate__message {
-  color: var(--color-danger);
 }
 </style>

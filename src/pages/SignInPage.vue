@@ -3,14 +3,14 @@
     <div class="card">
       <TrInput
         inputType="text"
-        placeholder="Электронная почта"
+        placeholder=" электронная почта"
         v-model="eMail"
         :validateMessage="v$.eMail?.$errors[0]?.$message"
         @inputSubmit="signIn"
       />
       <TrInput
         inputType="password"
-        placeholder="надёжный пароль"
+        placeholder=" надёжный пароль"
         v-model="password"
         :validateMessage="v$.password?.$errors[0]?.$message"
         @inputSubmit="signIn"
@@ -38,15 +38,13 @@ import {
   email,
 } from "@vuelidate/validators";
 
-import validateMessages from "../config/validateMessages";
+import validateMessages from "@/config/validateMessages";
 
 const router = useRouter();
 const storeAuth = useAuthStore();
 
 const eMail = ref("");
 const password = ref("");
-
-// #region validation
 
 const rules = {
   eMail: {
@@ -69,8 +67,6 @@ const rules = {
 };
 
 const v$ = useVuelidate(rules, { eMail, password });
-
-// #endregion
 
 const signIn = async () => {
   if (v$.value.$invalid) return;
