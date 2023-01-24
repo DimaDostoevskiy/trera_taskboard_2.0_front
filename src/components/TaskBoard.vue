@@ -1,11 +1,14 @@
 <template>
   <div class="board">
-    <div v-for="item in storeBoard.columnsList" class="column">
-      <p class="column-header">{{ item.name }}</p>
+    <div
+      class="column"
+      v-for="column in storeBoard.columnsList"
+      :key="column.id"
+    >
+      <p class="column-header">{{ column.name }}</p>
     </div>
     <div class="column">
       <div @click="showNewColumnModal" class="btn">Новая колонка</div>
-      <p v-if="projectName" class="column-header">{{ projectName }}</p>
     </div>
 
     <!--  ModalComponent [add column] -->
@@ -13,14 +16,14 @@
       btnText="Добавить колонку"
       :isOpen="createModal"
       @mSubmit="createColumn"
-      @mClose="createModal = false"
+      @mClose="closeNewColumnModal"
     >
       <template v-slot:modalBody>
         <TrInput
           inputType="text"
           placeholder=" название колонки"
-          v-model="projectName"
-          :validateMessage="v$.projectName?.$errors[0]?.$message"
+          v-model="newColumnName"
+          :validateMessage="v$.newColumnName?.$errors[0]?.$message"
           @inputSubmit="createColumn"
         />
       </template>
@@ -47,10 +50,10 @@ const storeAuth = useAuthStore();
 const storeBoard = useBoardStore();
 
 const createModal = ref(false);
-const projectName = ref("");
+const newColumnName = ref("");
 
 const rules = {
-  projectName: {
+  newColumnName: {
     minLength: helpers.withMessage(
       () => validateMessages.minLenght,
       minLength(4)
@@ -64,7 +67,7 @@ const rules = {
   },
 };
 
-const v$ = useVuelidate(rules, { projectName });
+const v$ = useVuelidate(rules, { newColumnName });
 
 onMounted(async () => {
   await storeBoard.loadBoard(storeAuth.token, storeBoard.activeProjId);
@@ -75,16 +78,19 @@ onMounted(async () => {
 });
 
 const createColumn = () => {
-  if (!projectName.value || !storeBoard.activeProjId) return;
-  storeBoard.createColumn(storeAuth.token, projectName.value);
-  projectName.value = "";
+  if (!newColumnName.value || !storeBoard.activeProjId) return;
+  storeBoard.createColumn(storeAuth.token, newColumnName.value);
+  closeNewColumnModal();
+};
+
+const closeNewColumnModal = () => {
+  newColumnName.value = "";
   v$.value.$reset();
   createModal.value = false;
 };
 
 const showNewColumnModal = () => {
-  if (!storeBoard.activeProjId) return;
-  createModal.value = true;
+  if (storeBoard.activeProjId) createModal.value = true;
 };
 </script>
 
@@ -115,7 +121,7 @@ const showNewColumnModal = () => {
 
 .btn {
   display: flex;
-  align-items: center;
+  align-columns: center;
   justify-content: center;
   width: 300px;
   margin: 0;
@@ -130,7 +136,7 @@ const showNewColumnModal = () => {
 .column-header {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-columns: center;
   padding: 2px 5px;
   background-color: #4f5263;
   border-top-left-radius: 5px;

@@ -5,16 +5,16 @@
         <div
           class="project-item"
           v-for="project in projectList"
-          @click="showBoard(project.id)"
           :key="project.id"
           :class="{ 'active-project': project.id === storeBoard.activeProjId }"
+          @click="showBoard(project.id)"
         >
           {{ project.name }}
           <img
-            @click="deleteProj(project.id)"
             class="icon"
             src="../assets/images/g_delete.png"
             alt="delete"
+            @click="deleteProj(project.id)"
           />
         </div>
       </div>
@@ -30,9 +30,9 @@
       <img class="icon" src="../assets/images/g_gear.png" alt="gear" />
       <img
         class="icon"
-        @click="logOut"
         src="../assets/images/g_logut.png"
         alt="logout"
+        @click="logOut"
       />
     </div>
   </nav>
@@ -43,7 +43,7 @@
     :isDisabled="v$.$invalid"
     :isOpen="showCreateProjModal"
     @mSubmit="createProj"
-    @mClose="showCreateProjModal = false"
+    @mClose="closeCreateProjModal"
   >
     <template v-slot:modalBody>
       <TrInput
@@ -105,6 +105,7 @@ onMounted(async () => {
 });
 
 const showBoard = (id) => {
+  if (storeBoard.activeProjId === id) return;
   storeBoard.setActiveProjId(id);
   storeBoard.loadBoard(storeAuth.token, id);
   localStorage.setItem("activeProjId", id);
@@ -114,9 +115,7 @@ const createProj = async () => {
   const response = await api.createProject(storeAuth.token, newProjName.value);
   if (!response) return;
   projectList.value = await api.getAllProjects(storeAuth.token);
-  showCreateProjModal.value = false;
-  newProjName.value = "";
-  v$.value.$reset();
+  closeCreateProjModal();
 };
 
 const deleteProj = async (id) => {
@@ -127,6 +126,12 @@ const deleteProj = async (id) => {
   const responseMessage = await api.deleteProject(storeAuth.token, id);
   console.log(responseMessage);
   projectList.value = await api.getAllProjects(storeAuth.token);
+};
+
+const closeCreateProjModal = () => {
+  showCreateProjModal.value = false;
+  newProjName.value = "";
+  v$.value.$reset();
 };
 
 const logOut = () => {
