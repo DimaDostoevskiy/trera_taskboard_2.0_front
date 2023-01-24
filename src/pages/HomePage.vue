@@ -1,13 +1,13 @@
 <template>
   <div class="container">
-    <NavbarVue />
-    <TaskBoardVue />
+    <Navbar />
+    <TaskBoard />
   </div>
 </template>
 
 <script setup>
-import NavbarVue from "@/components/Navbar.vue";
-import TaskBoardVue from "@/components/TaskBoard.vue";
+import Navbar from "@/components/Navbar.vue";
+import TaskBoard from "@/components/TaskBoard.vue";
 </script>
 
 <style scoped>

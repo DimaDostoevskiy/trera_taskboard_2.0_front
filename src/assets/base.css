@@ -37,7 +37,7 @@
   --color-success: #0eff06;
 }
 
-/* @media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
   :root {
     --color-background: var(--bg-black);
     --color-background-secondary: var(--bg-black-secondary);
@@ -50,7 +50,7 @@
     --color-danger: #ff0909;
     --color-success: #0eff06;
   }
-} */
+}
 
 *,
 *::before,

@@ -12,16 +12,14 @@ export default defineStore("auth", () => {
     if (!response) return;
     token.value = response;
     localStorage.setItem("token", response);
-  }
+  };
 
   const signUp = async (name, eMail, password) => {
     const response = await api.requestSignUp(name, eMail, password);
     if (response) await signIn(eMail, password);
-  }
+  };
 
   function logOut() {
-    token.value = undefined;
-    user.value = {};
     localStorage.clear();
   }
 

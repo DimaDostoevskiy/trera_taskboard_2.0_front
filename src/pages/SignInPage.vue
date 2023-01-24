@@ -1,30 +1,20 @@
 <template>
   <div class="signin">
     <div class="card">
-      <input
-        class="input"
+      <TrInput
+        inputType="text"
+        placeholder=" электронная почта"
         v-model="eMail"
-        @keydown="ISubmit($event, signIn)"
-        placeholder="fuck@yandex.ru"
-        type="text"
+        :validateMessage="v$.eMail?.$errors[0]?.$message"
+        @inputSubmit="signIn"
       />
-      <div class="validate">
-        <span class="validate__message">
-          {{ v$.eMail?.$errors[0]?.$message }}
-        </span>
-      </div>
-      <input
-        class="input"
+      <TrInput
+        inputType="password"
+        placeholder=" надёжный пароль"
         v-model="password"
-        @keydown="ISubmit($event, signIn)"
-        placeholder="надёжный пароль"
-        type="password"
+        :validateMessage="v$.password?.$errors[0]?.$message"
+        @inputSubmit="signIn"
       />
-      <div class="validate">
-        <span class="validate__message">
-          {{ v$.password?.$errors[0]?.$message }}
-        </span>
-      </div>
       <button :disabled="v$.$invalid" class="btn" @click="signIn">Войти</button>
       <router-link class="link" to="/signup">Зарегистрироваться</router-link>
     </div>
@@ -33,6 +23,8 @@
 
 <script setup>
 import { ref } from "vue";
+
+import TrInput from "@/components/kit/TrInput.vue";
 
 import { useRouter } from "vue-router";
 import useAuthStore from "@/stores/useAuthStore";
@@ -46,16 +38,13 @@ import {
   email,
 } from "@vuelidate/validators";
 
-import validateMessages from "../config/validateMessages";
-import ISubmit from "../lib/ISubmit";
+import validateMessages from "@/config/validateMessages";
 
 const router = useRouter();
 const storeAuth = useAuthStore();
 
 const eMail = ref("");
 const password = ref("");
-
-// #region validation
 
 const rules = {
   eMail: {
@@ -79,9 +68,8 @@ const rules = {
 
 const v$ = useVuelidate(rules, { eMail, password });
 
-// #endregion
-
 const signIn = async () => {
+  if (v$.value.$invalid) return;
   await storeAuth.signIn(eMail.value, password.value);
   if (storeAuth.token) router.push("/");
 };
@@ -91,25 +79,17 @@ const signIn = async () => {
 .signin {
   padding-top: 50px;
 }
+
 .card {
   margin: 0 auto;
   padding: 50px;
 }
-.input {
-  margin: 0 auto;
-}
+
 .btn {
   margin: 40px auto 60px auto;
 }
+
 .link {
   margin: 0 auto;
-}
-
-.validate {
-  height: 30px;
-  margin-bottom: 30px;
-}
-.validate__message {
-  color: var(--color-danger);
 }
 </style>

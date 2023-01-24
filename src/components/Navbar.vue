@@ -3,18 +3,18 @@
     <div class="navbar-panel">
       <div class="projects">
         <div
+          class="project-item"
           v-for="project in projectList"
-          @click="showBoard(project.id)"
           :key="project.id"
           :class="{ 'active-project': project.id === storeBoard.activeProjId }"
-          class="project-item"
+          @click="showBoard(project.id)"
         >
           {{ project.name }}
           <img
-            @click="deleteProj(project.id)"
             class="icon"
             src="../assets/images/g_delete.png"
             alt="delete"
+            @click="deleteProj(project.id)"
           />
         </div>
       </div>
@@ -30,54 +30,49 @@
       <img class="icon" src="../assets/images/g_gear.png" alt="gear" />
       <img
         class="icon"
-        @click="logOut"
         src="../assets/images/g_logut.png"
         alt="logout"
+        @click="logOut"
       />
     </div>
   </nav>
 
   <!--  ModalComponent [add project] -->
-  <Modal
+  <TrModal
     btnText="Создать проект"
     :isDisabled="v$.$invalid"
     :isOpen="showCreateProjModal"
     @mSubmit="createProj"
-    @mClose="showCreateProjModal = false"
+    @mClose="closeCreateProjModal"
   >
     <template v-slot:modalBody>
-      <input
-        name="modal-body"
-        class="input-modal"
-        v-model="newProjName"
-        @keydown="iSubmit($event, createProj)"
+      <TrInput
+        inputType="text"
         placeholder="Название проекта"
-        type="text"
+        v-model="newProjName"
+        :validateMessage="v$.newProjName?.$errors[0]?.$message"
+        @inputSubmit="createProj"
       />
-      <div class="validate">
-        <span class="validate__message">
-          {{ v$.newProjName?.$errors[0]?.$message }}
-        </span>
-      </div>
     </template>
-  </Modal>
+  </TrModal>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
+
+import TrModal from "@/components/kit/TrModal.vue";
+import TrInput from "@/components/kit/TrInput.vue";
+
 import { useRouter } from "vue-router";
 
 import useAuthStore from "@/stores/useAuthStore";
 import useBoardStore from "@/stores/useBoardStore";
 
-import api from "../api/api";
-
-import Modal from "@/components/kit/Modal.vue";
-import iSubmit from "@/lib/ISubmit";
+import api from "@/api/api";
 
 import { useVuelidate } from "@vuelidate/core";
 import { required, helpers, minLength, maxLength } from "@vuelidate/validators";
-import validateMessages from "../config/validateMessages";
+import validateMessages from "@/config/validateMessages";
 
 const router = useRouter();
 const storeAuth = useAuthStore();
@@ -111,6 +106,7 @@ onMounted(async () => {
 
 const showBoard = (id) => {
   if (storeBoard.activeProjId === id) return;
+  storeBoard.setActiveProjId(id);
   storeBoard.loadBoard(storeAuth.token, id);
   localStorage.setItem("activeProjId", id);
 };
@@ -118,11 +114,8 @@ const showBoard = (id) => {
 const createProj = async () => {
   const response = await api.createProject(storeAuth.token, newProjName.value);
   if (!response) return;
-  //TODO: Show toast
-  console.log(response);
   projectList.value = await api.getAllProjects(storeAuth.token);
-  showCreateProjModal.value = false;
-  newProjName.value = "";
+  closeCreateProjModal();
 };
 
 const deleteProj = async (id) => {
@@ -133,6 +126,12 @@ const deleteProj = async (id) => {
   const responseMessage = await api.deleteProject(storeAuth.token, id);
   console.log(responseMessage);
   projectList.value = await api.getAllProjects(storeAuth.token);
+};
+
+const closeCreateProjModal = () => {
+  showCreateProjModal.value = false;
+  newProjName.value = "";
+  v$.value.$reset();
 };
 
 const logOut = () => {
@@ -229,4 +228,3 @@ const logOut = () => {
   margin-left: 10px;
 }
 </style>
-hjhgj

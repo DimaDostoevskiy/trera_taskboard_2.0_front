@@ -2,67 +2,23 @@
 #app {
   width: 100%;
   min-width: 100vw;
-  min-height: 100vh;
-  height: 100vh;
   max-width: 1920px;
+  height: 100vh;
+  min-height: 100vh;
 }
 .container {
   display: flex;
   flex-direction: column;
-
   margin: 0 auto;
-
   width: 100%;
-  height: 100vh;
-
   min-width: 1024px;
   max-width: 1920px;
+  height: 100vh;
 }
-.input {
-  margin: 0 auto;
-  width: 100%;
-  height: 42px;
-  min-width: 320px;
-  font-size: 24px;
-  border: 0;
-  border-bottom: 1px solid;
-  color: var(--color-text);
-  border-color: var(--color-input-border);
-  background-color: var(--color-bg-board);
-}
-.input-modal {
-  margin: 0 auto;
-  width: 100%;
-  height: 42px;
-  min-width: 308px;
-  font-size: 16px;
-  border: 0;
-  border-bottom: 2px solid;
-  color: white;
-  border-color: #3A3C49;
-  background-color: var(--color-bg-board);
-  border-radius: 5px;
-  padding-left: 15px;
-  opacity: .7;
-  outline: none;
-}
-.input-modal--active {
-  border-color: #009761;
-}
-.input-modal--error {
-  border-color: #980000;
-}
-
 .input:focus,
 .input:focus-visible,
 .input:active {
   outline: none;
-}
-.input__error {
-  border-color: var(--color-danger);
-}
-.input__success {
-  border-color: var(--color-succes);
 }
 .btn {
   display: flex;
@@ -126,10 +82,3 @@
   cursor: pointer;
 }
 
-.validate {
-  padding-left: 12px;
-  height: 30px;
-}
-.validate__message {
-  color: var(--color-danger);
-}

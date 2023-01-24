@@ -53,7 +53,7 @@ export default {
   /**
    * returns all projects
    * @param {string} token
-   * @returns {Array} array | undefined
+   * @returns {Array} array
    */
   getAllProjects: async (token) => {
     const response = await axios
@@ -63,7 +63,7 @@ export default {
         },
       })
       .catch(function (error) {
-        console.error(error);
+        console.error(`api//getAllProjects error: ${error}`);
       });
     return response ? response.data : [];
   },
@@ -154,5 +154,5 @@ export default {
 
     return response.status === 200 ? response.data : [];
   },
-  getCards: async (id) => {},
+  getCards: async () => {},
 };
