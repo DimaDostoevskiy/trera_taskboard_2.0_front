@@ -10,7 +10,7 @@
   --btn-color-white: #f3f3f3;
   --btn-color-hover-white: #ffffff;
   --input-border-white: #0f0f0f;
-  --bg-board-white: #c7c7c7;
+  --board-bg-white: #c7c7c7;
   --column-bg-white: #3A3C49;
   
   --bg-black: #1f2227;
@@ -22,6 +22,7 @@
   --btn-color-hover-dark: #3a3a3a;
   --input-border-black: #0f0f0f;
   --column-bg-black: #3A3C49;
+  --link-text: #8B8B8B;
 }
 :root {
   --color-background: var(--bg-white);
@@ -47,6 +48,7 @@
     --color-btn: var(--btn-color-dark);
     --color-btn-hover: var(--btn-color-hover-dark);
     --color-bg-column: var(--column-bg-black);
+    --color-link: var(--link-text);
     --color-danger: #ff0909;
     --color-success: #0eff06;
   }
@@ -59,7 +61,7 @@
   margin: 0;
   position: relative;
   font-weight: normal;
-  color: var(--color-text);
+  color: var(--color-text-primary);
   font-family: 'Inter', sans-serif;
 }
 

@@ -7,9 +7,11 @@
     >
       <p class="column-header">{{ column.name }}</p>
     </div>
-    <div class="column">
-      <div @click="showNewColumnModal" class="btn">Новая колонка</div>
-    </div>
+    
+      <div @click="showNewColumnModal" class="btn">Новая колонка
+        <img class="icon" src="../assets/images/g_add.png" alt="add" />
+      </div>
+    
 
     <!--  ModalComponent [add column] -->
     <TrModal
@@ -121,26 +123,29 @@ const showNewColumnModal = () => {
 
 .btn {
   display: flex;
-  align-columns: center;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
+
+  padding-left: 18px;
   width: 300px;
   margin: 0;
   border: none;
   font-size: 15px;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  opacity: 0.3;
-  background-color: #454552;
+  background-color: #3A3C49;
+}
+
+.icon {
+  margin-right: 15px;
 }
 
 .column-header {
   display: flex;
-  justify-content: center;
-  align-columns: center;
-  padding: 2px 5px;
-  background-color: #4f5263;
+  justify-content: start;
+  padding-top: 12px;
+  padding-left: 24px;
+  
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  font-size: 18px;
+  font-size: 15px;
 }
 </style>

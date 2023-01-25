@@ -16,7 +16,10 @@
         @inputSubmit="signIn"
       />
       <button :disabled="v$.$invalid" class="btn" @click="signIn">Войти</button>
-      <router-link class="link" to="/signup">Зарегистрироваться</router-link>
+      <div class="link-wrapper">
+        <router-link class="link" to="/signup">Зарегистрироваться</router-link>
+      </div>
+      
     </div>
   </div>
 </template>
@@ -87,9 +90,37 @@ const signIn = async () => {
 
 .btn {
   margin: 40px auto 60px auto;
+  min-width: 330px;
+  font-size: 20px;
+  color: var(--color-link);
+  background-color: var(--column-bg-black);
+}
+
+.btn:hover {
+  color: var(--color-text-primary);
+  background-color: var(--column-bg-black);
+}
+.btn:disabled {
+  opacity: 1;
+  cursor: auto;
+}
+.btn:disabled:hover {
+  background-color: var(--color-btn);
+}
+
+.link-wrapper {
+  height: 42px;
+  
+  display: flex;
+  align-items: center;
+  background-color: var(--column-bg-black);
+  
+  border-radius: 6px;
+  border: 1px solid rgb(136, 136, 136);
 }
 
 .link {
   margin: 0 auto;
+  color: var(--color-link);
 }
 </style>

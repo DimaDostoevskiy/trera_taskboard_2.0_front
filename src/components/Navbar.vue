@@ -19,8 +19,16 @@
         </div>
       </div>
       <div class="controls">
-        <a class="btn-create-proj" @click="showCreateProjModal = true"
+        <a class="controls-btn btn-create-proj" @click="showCreateProjModal = true"
           >Создать проект
+          <img class="icon" src="../assets/images/g_add.png" alt="add" />
+        </a>
+        <a class="controls-btn btn-create-proj"
+          >Участники проекта
+          <img class="icon" src="../assets/images/arrow.png" alt="show" />
+        </a>
+        <a class="controls-btn btn-create-proj"
+          >Добавить участника
           <img class="icon" src="../assets/images/g_add.png" alt="add" />
         </a>
       </div>
@@ -54,6 +62,7 @@
         @inputSubmit="createProj"
       />
     </template>
+
   </TrModal>
 </template>
 
@@ -169,7 +178,7 @@ const logOut = () => {
 
 .project-item {
   display: flex;
-  justify-content: end;
+  justify-content: space-around;
   align-items: center;
   margin: 0 8px 0 0;
   padding: 8px;
@@ -178,7 +187,7 @@ const logOut = () => {
   min-width: 140px;
   height: 35px;
   border-radius: 8px;
-  background-color: var(--color-background-secondary);
+  background-color: var(--color-bg-column);
   cursor: pointer;
 }
 
@@ -192,7 +201,7 @@ const logOut = () => {
   min-width: fit-content;
   right: 0;
   border-radius: 8px;
-  background-color: var(--color-bg-board);
+  background-color: var(--color-bg-column);
 }
 
 .controls {
@@ -201,13 +210,13 @@ const logOut = () => {
   padding: 0 20px;
 }
 
-.btn-create-proj {
+.controls-btn {
   display: flex;
   justify-content: flex-end;
   align-items: center;
 
-  margin: 0 auto;
-  padding: 0 8px;
+  margin-left: 15px;
+  padding: 0 12px;
 
   min-width: fit-content;
   height: 35px;
@@ -217,14 +226,15 @@ const logOut = () => {
   cursor: pointer;
   text-decoration: none;
   white-space: nowrap;
-  background-color: var(--color-background-secondary);
+  background-color: var(--color-bg-column);
 }
 
 .active-project {
-  background-color: #3a3a3a;
+  background-color: #4F5263;
 }
 
 .icon {
   margin-left: 10px;
+  
 }
 </style>
