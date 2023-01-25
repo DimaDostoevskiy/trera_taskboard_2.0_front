@@ -5,7 +5,7 @@ import api from "../api/api";
 export default defineStore("board", () => {
   const activeProjId = ref(0);
   const columnsList = ref([]);
-  const cardsList = ref([]);
+  const tasksList = ref([]);
 
   const setActiveProjId = (id) => {
     activeProjId.value = parseInt(id);
@@ -15,7 +15,6 @@ export default defineStore("board", () => {
     if (!activeProjId.value) return;
     setActiveProjId(id);
     columnsList.value = await api.getColumns(token, id);
-    cardsList.value = await api.getCards(token, id);
   };
 
   const createColumn = async (token, name) => {
@@ -24,12 +23,18 @@ export default defineStore("board", () => {
     columnsList.value.push(response.column);
   };
 
+  const createTask = async (token, name, summery, description, column_id) => {
+    const response = await api.createTask(token, name, summery, description, column_id);
+    tasksList.value.push(response.card);
+  };
+
   return {
     activeProjId,
     columnsList,
-    cardsList,
+    tasksList,
     setActiveProjId,
     loadBoard,
     createColumn,
+    createTask
   };
 });

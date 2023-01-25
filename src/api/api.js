@@ -1,21 +1,22 @@
 import axios from "axios";
 import { basicRoute } from "@/config/config";
 
+//#region axios interceptors
 axios.interceptors.response.use(
-  function (response) {
+  function(response) {
     return response;
   },
-  function (error) {
+  function(error) {
     if (error.request.status === 401) {
       localStorage.removeItem("token");
       window.location.reload();
     }
   }
 );
-
+//#endregion
 export default {
   /**
-   * signup
+   * sign up
    * @param {string} name
    * @param {string} login
    * @param {string} password
@@ -26,15 +27,15 @@ export default {
       .post(`${basicRoute}auth/signup`, {
         name,
         login,
-        password,
+        password
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.error(error);
       });
     return response.status === 201 ? response.data.message : undefined;
   },
   /**
-   * signin
+   * sign in
    * @param {string} login
    * @param {string} password
    * @returns {string} token | undefined
@@ -43,9 +44,9 @@ export default {
     const response = await axios
       .post(`${basicRoute}auth/login`, {
         login,
-        password,
+        password
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.error(error);
       });
     return response?.status === 200 ? response.data.token : undefined;
@@ -59,10 +60,10 @@ export default {
     const response = await axios
       .get(`${basicRoute}projects/get-all/`, {
         headers: {
-          Authorization: token,
-        },
+          Authorization: token
+        }
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.error(`api//getAllProjects error: ${error}`);
       });
     return response ? response.data : [];
@@ -78,15 +79,15 @@ export default {
       .post(
         `${basicRoute}projects/create-project/`,
         {
-          name: projName,
+          name: projName
         },
         {
           headers: {
-            Authorization: token,
-          },
+            Authorization: token
+          }
         }
       )
-      .catch(function (error) {
+      .catch(function(error) {
         console.error(error);
       });
     return response.status === 200 ? response.data.message : undefined;
@@ -101,13 +102,13 @@ export default {
     const response = await axios
       .delete(`${basicRoute}projects/delete-project/`, {
         headers: {
-          Authorization: token,
+          Authorization: token
         },
         data: {
-          project_id: projId,
-        },
+          project_id: projId
+        }
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.error(error);
       });
     return response.status === 200 ? response.data.message : undefined;
@@ -124,15 +125,21 @@ export default {
     const response = await axios
       .get(`${basicRoute}columns/get-project-columns/${projId}`, {
         headers: {
-          Authorization: token,
-        },
+          Authorization: token
+        }
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.error(error);
       });
     return response.status === 200 ? response.data : [];
   },
-
+  /**
+   * create column
+   * @param {string} token
+   * @param {number} projId
+   * @param {string} columnName
+   * @returns {Promise<any|*[]>}
+   */
   createColumn: async (token, projId, columnName) => {
     const response = await axios
       .post(
@@ -140,19 +147,65 @@ export default {
         {
           name: columnName,
           position: 0,
-          project_id: projId,
+          project_id: projId
         },
         {
           headers: {
-            Authorization: token,
-          },
+            Authorization: token
+          }
         }
       )
-      .catch(function (error) {
+      .catch(function(error) {
         console.error(error);
       });
 
-    return response.status === 200 ? response.data : [];
+    return response.status === 200 ? response.data : undefined;
   },
-  getCards: async () => {},
+  /**
+   * create task
+   * @param {string} token
+   * @param {string} name
+   * @param {string} summery
+   * @param {string} description
+   * @param {number} column_id
+   * @returns {Promise<any|*[]>}
+   */
+  createTask: async (token, name, summery, description, column_id) => {
+    const response = await axios
+      .post(
+        `${basicRoute}card/create-card/`,
+        {
+          name,
+          summery,
+          description,
+          column_id
+        },
+        {
+          headers: {
+            Authorization: token
+          }
+        })
+      .catch(function(error) {
+        console.error(error);
+      });
+    return response.status === 200 ? response.data : undefined;
+  },
+  /**
+   * get all column's tasks
+   * @param {string} token
+   * @param {number} column_id
+   * @returns {Promise<void>}
+   */
+  getTasks: async (token, column_id) => {
+    const response = await axios
+      .get(`${basicRoute}card/get-column-cards/${column_id}`, {
+        headers: {
+          Authorization: token
+        }
+      })
+      .catch(function(error) {
+        console.error(error);
+      });
+    return response.status === 200 ? response.data : [];
+  }
 };
